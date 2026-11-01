@@ -14,7 +14,7 @@
 
   let D;
   try {
-    const r = await fetch("data.json?v=10");
+    const r = await fetch("data.json?v=11");
     if (!r.ok) throw new Error(r.status);
     D = await r.json();
   } catch {
@@ -81,7 +81,7 @@
     wDefaults: whole(D.work.default_rows), wBench: whole(D.work.benchmark_rows), wChecks: whole(D.work.js_checks), twBefore: eur(N.buyer_taiwan[0]), twAfter: eur(N.buyer_taiwan[1]),
     plateBefore: N.buyer_shift.plate.before, plateAfter: N.buyer_shift.plate.after, plateOf: N.buyer_shift.plate.of,
     boltBefore: N.buyer_shift.bolts.before, boltAfter: N.buyer_shift.bolts.after, boltOf: N.buyer_shift.bolts.of,
-    koreaBefore: eur(N.buyer_korea_plate[0]), koreaAfter: eur(-N.buyer_korea_plate[1]), millMedian: millMedian.toFixed(2), sMill: D.defaults.s_mill.toFixed(2),
+    scopeValue: eur(N.sector.scope_value), koreaBefore: eur(N.buyer_korea_plate[0]), koreaAfter: eur(-N.buyer_korea_plate[1]), millMedian: millMedian.toFixed(2), sMill: D.defaults.s_mill.toFixed(2),
   };
   document.querySelectorAll("[data-v]").forEach((n) => (n.textContent = V[n.dataset.v]));
 
@@ -112,7 +112,7 @@
     seen.unobserve(n);
     if (n.classList.contains("count")) countUp(n);
     if (n.classList.contains("grow") || n.classList.contains("chart")) setTimeout(() => n.classList.add("settled"), 1700);
-  }), { threshold: 0.18, rootMargin: "0px 0px -6% 0px" });
+  }), { threshold: 0.08, rootMargin: "0px 0px -6% 0px" });
   const watch = () => document.querySelectorAll(".reveal:not(.in), .grow:not(.in), .chart:not(.in), .count:not(.in)").forEach((n) => seen.observe(n));
 
   // Everything tied to scroll position runs in one frame callback.
