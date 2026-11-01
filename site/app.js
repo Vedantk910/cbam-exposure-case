@@ -1,5 +1,5 @@
 (async function () {
-  const D = await (await fetch("data.json")).json();
+  const D = await (await fetch("data.json?v=5")).json();
   const N = D.numbers;
   const rules = { years: D.years, markup: D.markup, cscf: D.cscf };
   const $ = (id) => document.getElementById(id);
@@ -78,7 +78,7 @@
     wRows: whole(D.work.trade_rows),
     wDefaults: whole(D.work.default_rows),
     wBench: whole(D.work.benchmark_rows),
-    wChecks: whole(D.pins.length * 9),
+    wChecks: whole(D.pins.length * 9 + 6 + 2 * D.years.length),
   };
   document.querySelectorAll("[data-v]").forEach((n) => (n.textContent = V[n.dataset.v]));
 
