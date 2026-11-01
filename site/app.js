@@ -107,12 +107,12 @@
     g.append(el("path", { class: "bolt-outline", fill: "var(--stay)", d: `M${x1} ${cy - 26}H${end - 8}L${end} ${cy - 18}V${cy + 18}L${end - 8} ${cy + 26}H${x1}Z` }));
     for (let x = x1 + 12; x < end - 10; x += 13) g.append(el("path", { stroke: "var(--bg)", "stroke-width": 1.6, opacity: 0.75, d: `M${x} ${cy - 26}l6 52` }));
     if (shank > 170) g.append(el("text", { class: "dim-text", x: x1 + 12, y: cy + 54 }, `${row.net.toFixed(2)} t needs certificates`));
-    if (head > 170) g.append(el("text", { class: "dim-text", x: X0 + 4, y: cy + 74 }, `${row.sefa.toFixed(2)} t free allocation`));
+    if (head > 120) g.append(el("text", { class: "dim-text", x: X0 + 4, y: cy + 82 }, `${row.sefa.toFixed(2)} t free allocation`));
 
     // the shorthand, same scale
     const y2 = 236;
     const w = Math.max(row.naive * SCALE, 2);
-    g.append(el("path", { class: "bolt-outline", fill: "var(--bg)", d: `M${X0} ${y2 - 15}H${X0 + w}V${y2 + 15}H${X0}Z` }));
+    g.append(el("path", { class: "bolt-outline", fill: "var(--steel)", d: `M${X0} ${y2 - 15}H${X0 + w}V${y2 + 15}H${X0}Z` }));
     const lx = X0 + w + 12;
     if (lx < 640) g.append(el("text", { class: "dim-text", x: lx, y: y2 + 7 }, `${row.naive.toFixed(2)} t on the 2.5% shorthand`));
     else g.append(el("text", { class: "dim-text", x: X0 + 8, y: y2 + 44 }, `${row.naive.toFixed(2)} t on the shorthand`));
@@ -172,38 +172,32 @@
   D.products.forEach((p, i) => c("product").add(new Option(p.name, i)));
   Object.entries(D.products[0].rivals).forEach(([k, r]) => c("rival").add(new Option(r.name, k)));
 
+  // Sliders snap to steps, so the exact inputs live here. Reset must reproduce the report to the euro.
+  const state = {};
   function reset() {
     const d = D.defaults;
-    c("product").value = 0;
-    c("tonnes").value = logInv(d.tonnes);
-    c("mill").value = d.s_mill;
-    c("price").value = D.price_base;
-    c("rival").value = d.rival;
+    Object.assign(state, {
+      product: 0, tonnes: d.tonnes, mill: d.s_mill, price: D.price_base, rival: d.rival, own: d.own, mass: d.mass_ratio,
+      low: d.s_low, premium: d.green_premium, verify: d.verify_cost, divert: d.price_loss_divert, rate: d.discount_rate,
+    });
+    Object.keys(state).forEach((k) => (c(k).value = k === "tonnes" ? logInv(state.tonnes) : state[k]));
     document.querySelector('input[name="sched"][value="law"]').checked = true;
-    c("own").value = d.own;
-    c("mass").value = d.mass_ratio;
-    c("low").value = d.s_low;
-    c("premium").value = d.green_premium;
-    c("verify").value = d.verify_cost;
-    c("divert").value = d.price_loss_divert;
-    c("rate").value = d.discount_rate;
     update();
   }
 
   function update() {
-    const p = D.products[+c("product").value];
-    const tonnes = logT(+c("tonnes").value);
+    const p = D.products[state.product];
+    const tonnes = state.tonnes;
     const e = {
-      ...p, rival: p.rivals[c("rival").value], tonnes, own: +c("own").value, mass_ratio: +c("mass").value,
-      s_mill: +c("mill").value, s_low: +c("low").value, verify_cost: +c("verify").value,
-      green_premium: +c("premium").value, price_loss_divert: +c("divert").value,
+      ...p, rival: p.rivals[state.rival], tonnes, own: state.own, mass_ratio: state.mass, s_mill: state.mill, s_low: state.low,
+      verify_cost: state.verify, green_premium: state.premium, price_loss_divert: state.divert,
     };
     const sched = document.querySelector('input[name="sched"]:checked').value;
-    const o = { price: +c("price").value, rate: +c("rate").value, start: D.defaults.first_verified_year, schedule: D.factor[sched] };
+    const o = { price: state.price, rate: state.rate, start: D.defaults.first_verified_year, schedule: D.factor[sched] };
 
     $("o_tonnes").textContent = whole(tonnes);
     $("o_mill").textContent = e.s_mill.toFixed(1);
-    $("o_price").textContent = `€${o.price.toFixed(0)}`;
+    $("o_price").textContent = `€${Number.isInteger(o.price) ? o.price : o.price.toFixed(2)}`;
     $("o_own").textContent = e.own.toFixed(2);
     $("o_mass").textContent = e.mass_ratio.toFixed(2);
     $("o_low").textContent = e.s_low.toFixed(1);
@@ -281,7 +275,11 @@
     host.replaceChildren(s);
   }
 
-  document.querySelectorAll("#controls input, #controls select").forEach((n) => n.addEventListener("input", update));
+  document.querySelectorAll("#controls input, #controls select").forEach((n) => n.addEventListener("input", () => {
+    const key = n.id.replace("c_", "");
+    if (n.type !== "radio") state[key] = key === "tonnes" ? logT(+n.value) : key === "rival" ? n.value : +n.value;
+    update();
+  }));
   $("reset").addEventListener("click", reset);
   reset();
 
@@ -386,6 +384,17 @@
 
   $("assumptions").innerHTML = `<thead><tr><th>Assumption</th><th class="n">Value</th><th>Why this value</th></tr></thead><tbody>${
     D.assumptions.map((a) => `<tr><td>${a.name}</td><td class="n">${a.value} ${a.unit}</td><td>${a.why}</td></tr>`).join("")}</tbody>`;
+
+  const ABLATE = [
+    ["Defaults in 2027, as the rule stands", ab.stay_eur_t],
+    ["Take away free allocation", ab.without_free_allocation],
+    ["Take away the mark-up", ab.without_mark_up],
+    ["Give India Taiwan's default", ab.if_india_had_taiwan_default],
+    ["Verified rod instead", ab.mill_eur_t],
+  ];
+  $("ablate").innerHTML = `<thead><tr><th>Ablation, bolts in 2027</th><th class="n">EUR per tonne</th></tr></thead><tbody>${
+    ABLATE.map((a) => `<tr><td>${a[0]}</td><td class="n">${eur(a[1])}</td></tr>`).join("")
+  }<tr><td>Low-carbon rod's edge over verified rod, if the benchmark ignored route</td><td class="n">${eur(ab.green_gap_without_route_benchmark)}</td></tr><tr><td>Low-carbon rod's edge as the rule stands</td><td class="n">${eur(ab.green_gap_actual)}</td></tr></tbody>`;
 
   const TAG = { PRIMARY: "Primary", OFFICIAL_DATA: "Official data", SECONDARY: "Secondary" };
   $("sourceList").innerHTML = `<tbody>${D.sources.map((s) => `<tr><td>${TAG[s.tag]}</td><td><a href="${s.url}">${s.title}</a></td></tr>`).join("")}</tbody>`;

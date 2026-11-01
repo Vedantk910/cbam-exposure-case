@@ -29,6 +29,21 @@ for (const [n, pin] of D.pins.entries()) {
   same(`pin ${n} flip mill`, E.flipMillIntensity(e, o, rules), pin.expect.flip_mill);
 }
 
+// The tool's base case must reproduce the decision page exactly, slider steps or not.
+{
+  const product = D.products[0];
+  const e = { ...product, ...D.defaults, rival: product.rivals[D.defaults.rival] };
+  const o = { price: D.price_base, rate: D.defaults.discount_rate, start: D.defaults.first_verified_year, schedule: D.factor.law };
+  const { best, pv } = E.recommend(e, o, rules);
+  checks++;
+  if (best !== D.numbers.best) fails.push(`base best ${best} vs ${D.numbers.best}`);
+  for (const k of E.ORDER) same(`base pv ${k}`, pv[k], D.numbers.pv[k]);
+  for (const [i, row] of D.numbers.headline.rows.entries()) {
+    same(`hero see ${row.year}`, E.seeDefault(product.default, rules, row.year), row.see);
+    same(`hero net ${row.year}`, E.certs(e, i, D.factor.law, rules).stay, row.net);
+  }
+}
+
 if (fails.length) {
   console.error(fails.slice(0, 10).join("\n"));
   console.error(`FAILED ${fails.length} of ${checks} checks`);

@@ -453,7 +453,7 @@
    },
    {
     "hs6": "720917",
-    "name": "Cold-rolled sheet",
+    "name": "Cold-rolled sheet, 0.5 to 1 mm",
     "label": "Flat-rolled products of iron or non-alloy steel, of a width of >= 600 mm, in coils, simply cold-rolled \"cold-reduced\", not clad, plated or c",
     "tonnes": 240258.942,
     "value": 153888780.0,
@@ -516,7 +516,7 @@
    },
    {
     "hs6": "720916",
-    "name": "Cold-rolled sheet",
+    "name": "Cold-rolled sheet, 1 to 3 mm",
     "label": "Flat-rolled products of iron or non-alloy steel, of a width of >= 600 mm, in coils, simply cold-rolled \"cold-reduced\", not clad, plated or c",
     "tonnes": 203963.74399999998,
     "value": 128941897.0,

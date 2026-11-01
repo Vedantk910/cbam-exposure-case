@@ -40,7 +40,7 @@ SHORT = {
     "730711": "Cast fittings", "721012": "Tinplate", "720839": "Hot-rolled coil", "720838": "Hot-rolled coil",
     "720837": "Hot-rolled coil", "721049": "Galvanised sheet", "722519": "Electrical steel", "721012": "Tinplate",
     "730441": "Stainless cold-drawn tube", "721070": "Painted or coated sheet", "720690": "Primary-form steel",
-    "720917": "Cold-rolled sheet", "720916": "Cold-rolled sheet", "730449": "Stainless tube", "730419": "Line pipe, seamless",
+    "720917": "Cold-rolled sheet, 0.5 to 1 mm", "720916": "Cold-rolled sheet, 1 to 3 mm", "730449": "Stainless tube", "730419": "Line pipe, seamless",
 }
 
 

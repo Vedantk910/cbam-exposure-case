@@ -60,6 +60,12 @@ def test_stress_outcomes_match_the_claims(n):
         assert s[f"Rival is {rival}"]["answer"] == "mill"
 
 
+def test_tool_keeps_exact_inputs_rather_than_slider_positions():
+    js = (ROOT / "site/app.js").read_text()
+    assert "const state = {}" in js
+    assert "tonnes: d.tonnes" in js and "price: D.price_base" in js
+
+
 def test_no_invented_interviews_or_ai_claims():
     text = (ROOT / "site/index.html").read_text().lower()
     assert "no exporter, mill or verifier was interviewed" in text
