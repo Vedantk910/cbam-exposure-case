@@ -48,7 +48,7 @@ The evidence that did not cooperate: EU trade through August 2026 shows no avera
    - `trade_effect.py`: dose-response panel, event study, placebo
 3. **Output:** `out/decision_numbers.json`, `report/decision_page.md` rendered from it, and the site in `site/`.
 
-The site has six pages: the case, how CBAM works, the decision tool (exporter view, buyer view, dependency map, sensitivity), the evidence, how the work went, and sources.
+The site has six pages. The case page runs as a consulting case study: a scroll-driven insight, the case at a glance, an executive summary, an issue tree, the recommendation, a roadmap and a risk register. The others are how CBAM works, the decision tool (exporter view, buyer view, dependency map, sensitivity), the numbered exhibits, how the work went, and sources. Everything is plain HTML, CSS and JavaScript with no animation library, and all scroll effects switch off under reduced motion.
 
 ## Project layout
 

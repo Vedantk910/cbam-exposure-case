@@ -356,6 +356,7 @@ table { border-collapse: collapse; font-size: 15px; line-height: 1.35; }
 /* Phone: a different layout, with the nav behind a labelled menu. */
 @media (max-width: 860px) {
   .menu-btn { display: block; }
+  .brand { display: inline-block; padding: 12px 0; }
   .nav nav { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 0; background: rgba(22, 22, 23, .96); padding: 6px var(--gutter) 16px; }
   .nav nav.open { display: flex; }
   .nav nav a { font-size: 19px; font-weight: 500; padding: 11px 0; }
