@@ -21,7 +21,7 @@ def test_headline(n, readme):
     h = n["headline"]
     assert f"{h['payable_share_2026']:.0%}" == "79%" and "**79%**" in readme
     assert f"{h['rows'][0]['net']:.2f}" in readme
-    assert f"factor of {h['ratio_2026']:.0f}" in readme
+    assert f"{h['ratio_2026']:.0f} times" in readme
 
 
 def test_positions(n, readme):
@@ -51,7 +51,10 @@ def test_trade_result(n, readme):
 def test_stress_outcomes_match_the_claims(n):
     s = {r["case"]: r for r in n["stress"]}
     assert s["Carbon price EUR 40"]["answer"] == "mill"
-    assert s["Carbon price EUR 150"]["answer"] == "mill"
+    assert s["Carbon price EUR 120"]["answer"] == "mill"
+    assert s["Carbon price EUR 150"]["answer"] == "green"
+    assert s["Forging outside the boundary (own plant 0)"]["answer"] == "mill"
+    assert s["Dirtiest plant in the schedule (3.31)"]["answer"] == "mill"
     assert s["COM(2026) 616 slower phase-out"]["answer"] == "mill"
     assert s["Verification costs three times more"]["answer"] == "mill"
     assert s["Verified rod at 4.5 tCO2e/t"]["answer"] == "green"
@@ -66,7 +69,14 @@ def test_tool_keeps_exact_inputs_rather_than_slider_positions():
     assert "tonnes: d.tonnes" in js and "price: D.price_base" in js
 
 
+def test_no_em_dashes_in_published_writing():
+    paths = [ROOT / "README.md", ROOT / "report/decision_page.md", ROOT / "site/app.js", *(ROOT / "site").glob("*.html")]
+    for path in paths:
+        assert "\u2014" not in path.read_text(), path
+
+
 def test_no_invented_interviews_or_ai_claims():
-    text = (ROOT / "site/index.html").read_text().lower()
+    text = (ROOT / "site/method.html").read_text().lower()
     assert "no exporter, mill or verifier was interviewed" in text
-    assert "no ai" not in text
+    for page in (ROOT / "site").glob("*.html"):
+        assert "no ai" not in page.read_text().lower()

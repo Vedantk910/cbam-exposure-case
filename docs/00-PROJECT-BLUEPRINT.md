@@ -1,4 +1,4 @@
-# PROJECT BLUEPRINT — CBAM Exposure Case (C3 flagship)
+# PROJECT BLUEPRINT: CBAM Exposure Case (C3 flagship)
 
 _Design record, 2026-11-01._
 

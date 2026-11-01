@@ -90,5 +90,28 @@
     return e.s_mill + (pv.green - pv.mill) / (weight * e.mass_ratio * o.price * e.tonnes);
   }
 
-  return { ORDER, markUp, seeDefault, certs, rivalNet, annualHit, presentHit, recommend, flipTonnesPv, flipPremium, flipCarbonPrice, flipMillIntensity };
+  function sensitivity(e, o, rules, ranges) {
+    const run = (key, value) => {
+      const e2 = { ...e };
+      const o2 = { ...o };
+      if (key in o2) o2[key] = value;
+      else e2[key] = value;
+      const { best, pv } = recommend(e2, o2, rules);
+      return [pv.stay - pv.mill, best];
+    };
+    return ranges.map(([key, label, low, high]) => {
+      const [atLow, bestLow] = run(key, low);
+      const [atHigh, bestHigh] = run(key, high);
+      return { key, label, low, high, at_low: atLow, at_high: atHigh, best_low: bestLow, best_high: bestHigh };
+    }).sort((a, b) => Math.abs(b.at_high - b.at_low) - Math.abs(a.at_high - a.at_low));
+  }
+
+  function landed(rows, i, price, schedule, rules) {
+    return rows.map((r) => {
+      const cbam = rivalNet(r, i, schedule, rules) * price;
+      return { ...r, price: r.uv, cbam, landed: r.uv + cbam };
+    }).sort((a, b) => a.landed - b.landed);
+  }
+
+  return { landed, sensitivity, ORDER, markUp, seeDefault, certs, rivalNet, annualHit, presentHit, recommend, flipTonnesPv, flipPremium, flipCarbonPrice, flipMillIntensity };
 });

@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CBAM Decision Tool</title>
+<meta name="description" content="Run the CBAM decision on your own numbers, see how each input drives the answer, and compare origins as an EU buyer.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=7">
+</head>
+<body data-page="tool">
+<a class="skip" href="#exporter">Skip to the tool</a>
+<header class="bar">
+  <a class="brand" href="index.html">CBAM Exposure Case</a>
+  <nav aria-label="Pages">
+    <a href="index.html">The case</a>
+    <a href="learn.html">How CBAM works</a>
+    <a href="tool.html" aria-current="page">Decision tool</a>
+    <a href="evidence.html">Evidence</a>
+    <a href="method.html">How I worked</a>
+    <a href="sources.html">Sources</a>
+    <a href="https://github.com/Vedantk910/cbam-exposure-case">Code</a>
+    <button id="theme" type="button">Dark</button>
+  </nav>
+</header>
+
+<main>
+<p class="status" id="status" role="status">Loading the figures.</p>
+
+<section class="page-head">
+  <h1>Decision tool</h1>
+  <p class="lede">Choose whose side you are on. Every number recalculates in your browser with the same formulas as the Python model, and a test fails the build if the two ever differ.</p>
+  <div class="tabs" role="tablist" aria-label="Choose a view">
+    <button role="tab" id="tab-exporter" aria-controls="exporter" aria-selected="true" type="button">I export to the EU</button>
+    <button role="tab" id="tab-buyer" aria-controls="buyer" aria-selected="false" type="button" tabindex="-1">I buy in the EU</button>
+  </div>
+</section>
+
+<section id="exporter" role="tabpanel" aria-labelledby="tab-exporter">
+  <div class="toolgrid">
+    <form class="controls" id="controls" autocomplete="off">
+      <div class="ctl"><label for="c_product">Product</label><select id="c_product"></select></div>
+      <div class="ctl"><label for="c_tonnes">Tonnes sold to the EU a year <output id="o_tonnes"></output></label><input id="c_tonnes" type="range" min="0" max="100" step="1"></div>
+      <div class="ctl"><label for="c_plant">Rod from a plant in India's draft schedule</label><select id="c_plant"></select></div>
+      <div class="ctl"><label for="c_mill">Your mill's verified rod, tCO₂e/t <output id="o_mill"></output></label><input id="c_mill" type="range" min="1.5" max="5.5" step="0.01"></div>
+      <div class="ctl"><label for="c_price">Carbon price, EUR/t <output id="o_price"></output></label><input id="c_price" type="range" min="40" max="160" step="1"></div>
+      <div class="ctl"><label for="c_rival">Rival who sets the EU price</label><select id="c_rival"></select></div>
+      <fieldset class="ctl"><legend>Free allocation phase-out</legend>
+        <label class="radio"><input type="radio" name="sched" value="law" checked> Law in force</label>
+        <label class="radio"><input type="radio" name="sched" value="proposal"> COM(2026) 616 proposal</label>
+      </fieldset>
+      <details class="more"><summary>More assumptions</summary>
+        <div class="ctl"><label for="c_own">Own plant, tCO₂/t of good <output id="o_own"></output></label><input id="c_own" type="range" min="0" max="1.5" step="0.01"></div>
+        <div class="ctl"><label for="c_mass">Steel used per tonne of good <output id="o_mass"></output></label><input id="c_mass" type="range" min="1" max="1.3" step="0.01"></div>
+        <div class="ctl"><label for="c_low">Low-carbon rod, tCO₂e/t <output id="o_low"></output></label><input id="c_low" type="range" min="0.5" max="2" step="0.1"></div>
+        <div class="ctl"><label for="c_premium">Low-carbon premium, EUR/t steel <output id="o_premium"></output></label><input id="c_premium" type="range" min="0" max="300" step="5"></div>
+        <div class="ctl"><label for="c_verify">Verification a year, EUR <output id="o_verify"></output></label><input id="c_verify" type="range" min="5000" max="60000" step="500"></div>
+        <div class="ctl"><label for="c_divert">Price given up outside the EU, EUR/t <output id="o_divert"></output></label><input id="c_divert" type="range" min="0" max="800" step="10"></div>
+        <div class="ctl"><label for="c_rate">Discount rate <output id="o_rate"></output></label><input id="c_rate" type="range" min="0.05" max="0.2" step="0.01"></div>
+      </details>
+      <button type="button" id="reset">Reset to the base case</button>
+    </form>
+    <div class="results">
+      <p class="tool-verdict" id="verdict" aria-live="polite"></p>
+      <div id="toolBars" class="hbars"></div>
+      <dl class="flips">
+        <div><dt>Verified rod pays above</dt><dd id="f_tonnes"></dd></div>
+        <div><dt>Low-carbon rod wins if your mill is above</dt><dd id="f_mill"></dd></div>
+        <div><dt>Or if 2034 carbon passes</dt><dd id="f_price"></dd></div>
+      </dl>
+      <h3>Certificates per tonne of good</h3>
+      <div class="legend" id="lineLegend"></div>
+      <div class="chart" id="lineChart"></div>
+    </div>
+  </div>
+
+  <div class="sub">
+    <h2>How the answer is built</h2>
+    <p class="wide">This is the whole calculation for one position and one year, left to right. Select a box to see what it is, where it comes from, what it is built from and what it feeds. Boxes with a solid edge are inputs, and you can change them from the panel below the map.</p>
+    <div class="pick">
+      <div class="ctl"><label for="m_pos">Position</label><select id="m_pos"></select></div>
+      <div class="ctl"><label for="m_year">Year <output id="m_yearOut"></output></label><input id="m_year" type="range" min="1" max="8" step="1" value="1"></div>
+    </div>
+    <div class="map" id="map"></div>
+    <div class="info" id="nodeInfo" aria-live="polite"></div>
+  </div>
+
+  <div class="sub">
+    <h2>Which inputs matter most</h2>
+    <p class="wide">Each bar shows what verified rod is worth against staying on defaults as one input moves across a realistic range, with the rest held at your settings. The longest bars are the numbers to check first.</p>
+    <div id="swing" class="swing"></div>
+  </div>
+</section>
+
+<section id="buyer" role="tabpanel" aria-labelledby="tab-buyer" hidden>
+  <div class="toolgrid">
+    <form class="controls" autocomplete="off">
+      <div class="ctl"><label for="b_product">Product</label><select id="b_product"></select></div>
+      <div class="ctl"><label for="b_year">Import year <output id="b_yearOut"></output></label><input id="b_year" type="range" min="0" max="8" step="1" value="1"></div>
+      <div class="ctl"><label for="b_price">Carbon price, EUR/t <output id="b_priceOut"></output></label><input id="b_price" type="range" min="40" max="160" step="1"></div>
+    </form>
+    <div class="results">
+      <p class="tool-verdict" id="b_verdict" aria-live="polite"></p>
+      <div class="legend"><span><i class="block" style="background:var(--steel)"></i>2025 import price</span><span><i class="block" style="background:var(--stay)"></i>CBAM on default values</span></div>
+      <div id="b_bars" class="stack"></div>
+      <p class="note">Import prices are Eurostat unit values for 2025 and they mix grades, so a dearer origin may simply sell a better product. Customs duty, anti-dumping duty and steel quotas are left out. Origins with under 2,000 tonnes are left out too.</p>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer><p>Vedant Konde. Estimates for study, not legal or compliance advice. Rules as of October 2026.</p></footer>
+<div class="tip" id="tip" role="status" hidden></div>
+<script src="engine.js?v=7"></script>
+<script src="app.js?v=7"></script>
+</body>
+</html>

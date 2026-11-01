@@ -56,11 +56,46 @@ SOURCES = {
             "SECONDARY", "https://eurometal.net/cbam-reshapes-indias-steel-access-to-europe-webinar/"),
     "S24": ("Section 232 steel derivatives: 7318 reported at 25-50%; sources conflict",
             "SECONDARY", "https://www.gaiadynamics.ai/blog/section-232-steel-aluminum-derivatives-in-2026-why-auto-parts-bearings-and-valves-got-caught-in-the-net"),
+    "S26": ("European Fastener Distributor Association: CBAM cost calculation in 2026 (March 2026), formula, boundary note and eight worked examples",
+            "SECONDARY", "https://www.nfda-fastener.org/assets/docs/EFDA-CBAMcostscalculationin2026.pdf"),
+    "S27": ("Fastener + Fixing Magazine, 16 Apr 2026: EFDA and carboneer webinar on default values and verification",
+            "SECONDARY", "https://fastenerandfixing.com/insight/european-fastener-distribution-in-difficult-cbam-waters/"),
+    "S28": ("Fastener + Fixing Magazine, 9 Feb 2026: interview with Jamie McLeod of Crowe UK",
+            "SECONDARY", "https://fastenerandfixing.com/insight/the-new-reality-of-cbam/"),
+    "S29": ("CarbonNeeti, 7 Oct 2026: plant baselines from India's draft CCTS schedule G.S.R. 517(E); gazette not read",
+            "SECONDARY", "https://carbonneeti.com/blog/steel-industry-emission-intensity-india-bf-bof-eaf"),
+    "S30": ("CO2 AI, 20 Oct 2026: default against verified cost per tonne, and a JSW executive on verified data",
+            "SECONDARY", "https://co2ai.com/insights/cbam-and-indian-steel-the-market-is-already-deciding-winners-and-losers"),
+    "S31": ("Asia Research and Engagement, 1 Sep 2026: The CBAM Test, summary page only",
+            "SECONDARY", "https://asiareengage.com/the-cbam-test-indian-steels-future-in-europe/"),
+    "S32": ("Business Standard, Jan 2026: steelmakers on CBAM verification; page blocked, read through a search summary only",
+            "SECONDARY", "https://www.business-standard.com/industry/news/steelmakers-rework-production-strengthen-compliance-as-cbam-kicks-in-126010601063_1.html"),
     "S25": ("UK CBAM from 1 Jan 2027, no India CETA exemption, fasteners listed at draft stage",
             "SECONDARY", "https://www.mayerbrown.com/en/insights/publications/2025/05/what-are-the-top-10-things-you-need-to-know-about-uk-cbam"),
 }
 
+from statistics import median
+
 YEARS = list(range(2026, 2035))
+
+# S29: tCO2e per tonne of crude steel, FY 2023-24 baseline in a draft schedule. Boundary unstated.
+MILLS = [
+    ("Tata Steel Jamshedpur", 2.3630), ("Tata Steel Kalinganagar", 2.4891), ("JSW Steel Vijayanagar", 2.6178),
+    ("JSW Steel Dolvi", 2.7222), ("SAIL Rourkela", 2.9509), ("RINL Visakhapatnam", 2.9781),
+    ("Jindal Steel & Power Angul", 3.1376), ("SAIL Durgapur", 3.1452), ("SAIL Bhilai", 3.1487), ("SAIL Bokaro", 3.2056),
+]
+ROLLING_ADD = 0.1  # ASSUMPTION: crude steel to hot-rolled rod
+S_MILL_BASE = round(median(v for _, v in MILLS) + ROLLING_ADD, 2)
+
+# S26: origin, CN8, EFDA's EUR/t at a EUR 80 certificate in 2026, on default values.
+EFDA_EXAMPLES = [
+    ("Viet Nam", "VN", "73181588", 135.61), ("Taiwan", "TW", "73181499", 131.85), ("Viet Nam", "VN", "73181568", 135.61), ("China", "CN", "73181575", 471.03), ("China", "CN", "73181692", 337.61),
+    ("Türkiye", "TR", "73181692", 227.13), ("Malaysia", "MY", "73182200", 273.93),
+]
+# EFDA applies the carbon-steel benchmark to this line; the Commission's file marks it stainless.
+EFDA_INDIA = ("India", "IN", "73181562", 396.97)
+# S28: Crowe UK's rough figures for fasteners at EUR 90.
+CROWE_EXAMPLES = [("Taiwan", "TW", 150), ("Türkiye", "TR", 400), ("China", "CN", 500)]
 
 # S05: share of free allocation EU producers keep. Directive 2003/87/EC Art. 10a(1a).
 CBAM_FACTOR_LAW = dict(zip(YEARS, [0.975, 0.95, 0.90, 0.775, 0.515, 0.39, 0.265, 0.14, 0.0]))
@@ -91,16 +126,28 @@ FUEL = {"furnace_oil": (0.0404, 77.4), "lpg": (0.0473, 63.1)}  # TJ/t, tCO2/TJ
 ASSUMPTIONS = {
     "verify_cost_eur": (round(2_000_000 / EUR_INR), "Annual verification and compliance cost", "EUR/yr",
                         "Upper end of the Rs 15-20 lakh reported per unit. No verifier publishes a fee, and it may include consultants.", "S16"),
-    "s_mill": (2.6, "Verified intensity of the current BF-BOF rod", "tCO2e/t",
-               "ICRA's 2.5 for Indian producers plus 0.1 for hot rolling. No Indian mill's verified figure is public.", "S17"),
+    "s_mill": (S_MILL_BASE, "Verified intensity of the current rod", "tCO2e/t",
+               "Median of ten Indian plants in a draft government schedule (2.96), plus 0.1 for rolling. No mill's verified CBAM figure is public.", "S29"),
     "s_low": (1.0, "Verified intensity of low-carbon rod", "tCO2e/t",
               "ICRA's 0.7 for scrap EAF plus rolling and charge.", "S17"),
     "green_premium_eur": (round(200 / USD_PER_EUR), "Low-carbon rod premium", "EUR/t steel",
-                          "Midpoint of USD 190-210/t, quoted for green steel generally, not for Indian EAF rod.", "S18"),
+                          "Midpoint of USD 190-210/t, quoted for green steel generally. Nobody publishes a price for Indian EAF rod.", "S18"),
     "discount_rate": (0.12, "Discount rate", "per year", "Judgement for an Indian mid-sized exporter.", None),
     "first_verified_year": (2027, "First year on verified data", "year",
-                            "Verifiers registered from Sep 2026, so 2026 imports stay on defaults here.", "S01"),
+                            "The Commission expects first verification work in early 2027, and EFDA calls verified data for 2026 imports highly unlikely.", "S26"),
 }
+
+
+# Low and high ends for the sensitivity chart. Real ranges where a source gives one.
+SENSITIVITY = [
+    ("price", "Carbon price, EUR/t", 40.0, 150.0),
+    ("s_mill", "Your mill's verified rod, tCO2e/t", round(MILLS[0][1] + ROLLING_ADD, 2), round(MILLS[-1][1] + ROLLING_ADD, 2)),
+    ("tonnes", "Tonnes sold to the EU a year", 100.0, 2000.0),
+    ("verify_cost", "Verification a year, EUR", 9000.0, 56000.0),
+    ("own", "Own plant, tCO2/t of good", 0.0, 0.9),
+    ("mass_ratio", "Steel used per tonne of good", 1.02, 1.2),
+    ("rate", "Discount rate", 0.08, 0.2),
+]
 
 
 def assumption(name):

@@ -1,4 +1,4 @@
-"""Golden numbers below were worked by hand from the formula, not produced by the model."""
+"""Golden numbers below were worked out separately from the formula, not read back from the model."""
 import pytest
 
 from data.facts import CBAM_FACTOR_LAW, CBAM_FACTOR_PROPOSAL, YEARS
@@ -74,11 +74,12 @@ def test_golden_own_process():
 
 def test_golden_mill_route_2027():
     # m = 650/600 = 1.08333
-    # SEE = 0.4463 + 1.08333 x 2.6 = 3.2630
+    # SEE = 0.4463 + 1.08333 x 3.06 = 3.7613
     # SEFA = 0.95 x (0.038 + 1.08333 x 1.364) = 1.4400
-    # net = 1.8230
+    # net = 2.3213
     e = d.archetype()
-    assert d.certs(e, 2027)["mill"] == pytest.approx(1.8230, abs=2e-4)
+    assert e.s_mill == 3.06
+    assert d.certs(e, 2027)["mill"] == pytest.approx(2.3213, abs=2e-4)
 
 
 def test_golden_verify_only_2027_carries_marked_up_precursor():
@@ -160,3 +161,22 @@ def test_rival_term_cancels_between_eu_positions():
 
 def test_recommendation_at_archetype_is_verified_mill():
     assert d.recommend(d.archetype())[0] == "mill"
+
+
+def test_green_gets_better_as_free_allocation_ends():
+    e = d.archetype()
+    assert d.flip_premium(e, 2034) > d.flip_premium(e, 2027)
+
+
+def test_sensitivity_covers_every_input_and_brackets_the_base():
+    e = d.archetype()
+    rows = d.sensitivity(e)
+    base = d.present_hit(e)["stay"] - d.present_hit(e)["mill"]
+    assert len(rows) == 7
+    price = next(r for r in rows if r["key"] == "price")
+    assert price["at_low"] < base < price["at_high"]
+
+
+def test_every_listed_plant_stays_below_the_low_carbon_flip():
+    from data.facts import MILLS, ROLLING_ADD
+    assert max(v for _, v in MILLS) + ROLLING_ADD < d.flip_mill_intensity(d.archetype())

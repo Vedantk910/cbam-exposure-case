@@ -38,6 +38,21 @@ for (const [n, pin] of D.pins.entries()) {
   checks++;
   if (best !== D.numbers.best) fails.push(`base best ${best} vs ${D.numbers.best}`);
   for (const k of E.ORDER) same(`base pv ${k}`, pv[k], D.numbers.pv[k]);
+  const swing = E.sensitivity(e, o, rules, D.sensitivity_ranges);
+  D.numbers.sensitivity.forEach((row, i) => {
+    same(`sensitivity ${row.key} low`, swing[i].at_low, row.at_low);
+    same(`sensitivity ${row.key} high`, swing[i].at_high, row.at_high);
+    checks++;
+    if (swing[i].key !== row.key || swing[i].best_high !== row.best_high) fails.push(`sensitivity order ${row.key}`);
+  });
+  for (const b of D.buyer) {
+    const js = E.landed(b.rows, D.years.indexOf(2027), D.price_base, D.factor.law, rules);
+    D.numbers.buyer_pin[b.hs6].forEach((row, i) => {
+      same(`buyer ${b.hs6} ${row.origin}`, js[i].landed, row.landed);
+      checks++;
+      if (js[i].origin !== row.origin) fails.push(`buyer order ${b.hs6} ${row.origin}`);
+    });
+  }
   for (const [i, row] of D.numbers.headline.rows.entries()) {
     same(`hero see ${row.year}`, E.seeDefault(product.default, rules, row.year), row.see);
     same(`hero net ${row.year}`, E.certs(e, i, D.factor.law, rules).stay, row.net);

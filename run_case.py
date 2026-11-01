@@ -4,9 +4,11 @@ import random
 from dataclasses import replace
 from pathlib import Path
 
-from data.facts import (ARCHETYPE, ASSUMPTIONS, CBAM_FACTOR_LAW, CBAM_FACTOR_PROPOSAL, EUR_INR, MARKUP,
-                        PRICE_2026_Q, PRICE_BASE, SOURCES, USD_PER_EUR, YEARS, assumption)
+from data.facts import (ARCHETYPE, ASSUMPTIONS, CBAM_FACTOR_LAW, CBAM_FACTOR_PROPOSAL, CROWE_EXAMPLES, EFDA_EXAMPLES,
+                        EFDA_INDIA, EUR_INR, MARKUP, MILLS, PRICE_2026_Q, PRICE_BASE, ROLLING_ADD, SENSITIVITY, SOURCES,
+                        USD_PER_EUR, YEARS, assumption)
 from data.tables import benchmark_b, default_for
+from model import buyer
 from model import decision as d
 from model import exposure as x
 from model import trade_effect as te
@@ -24,6 +26,9 @@ TOOL_PRODUCTS = [
 RIVALS = {"TW": "Taiwan", "VN": "Viet Nam", "KR": "South Korea", "TR": "Türkiye", "CN": "China", "JP": "Japan", "TH": "Thailand"}
 ORIGIN_NAMES = {"IN": "India", **RIVALS, "ID": "Indonesia", "MY": "Malaysia", "UA": "Ukraine", "GB": "United Kingdom",
                 "BR": "Brazil", "US": "United States"}
+BUYER_PRODUCTS = [("731815", "Bolts and screws"), ("731816", "Nuts"), ("732690", "Other steel articles"),
+                  ("730890", "Steel structures"), ("720851", "Hot-rolled plate"), ("721049", "Galvanised sheet"),
+                  ("720917", "Cold-rolled sheet, 0.5 to 1 mm"), ("722300", "Stainless wire"), ("760612", "Aluminium sheet")]
 DOWNSTREAM = ("7307", "7308", "7309", "7310", "7311", "7318", "7326")
 SHORT = {
     "731815": "Bolts and screws", "731816": "Nuts", "732690": "Other steel articles", "730890": "Steel structures",
@@ -101,6 +106,9 @@ def stress(e):
         run("Carbon price EUR 40", price=40.0), run("Carbon price EUR 120", price=120.0),
         run("Carbon price EUR 150", price=150.0),
         run("COM(2026) 616 slower phase-out", schedule=CBAM_FACTOR_PROPOSAL),
+        run("Cleanest plant in the schedule (2.46)", s_mill=round(MILLS[0][1] + ROLLING_ADD, 2)),
+        run("Dirtiest plant in the schedule (3.31)", s_mill=round(MILLS[-1][1] + ROLLING_ADD, 2)),
+        run("Forging outside the boundary (own plant 0)", own=0.0),
         run("Verified rod at 3.5 tCO2e/t", s_mill=3.5), run("Verified rod at 4.5 tCO2e/t", s_mill=4.5),
         run("Verified rod at 5.5 tCO2e/t", s_mill=5.5),
         run("Verification costs three times more", verify_cost=e.verify_cost * 3),
@@ -254,13 +262,16 @@ def decision_page(n):
     t = n["trade"]
     e = t["estimates"]
     g = n["markets"]
+    a = n["archetype"]
     world = n["world_kt_bolts"]
     route_take = 1 - ab["green_gap_actual"] / ab["green_gap_without_route_benchmark"]
+    stress = {r["case"]: r for r in n["stress"]}
+    shift = n["buyer_shift"]
     return f"""# Decision page: CBAM Exposure Case
 
-**Question.** A {n["archetype"]["tonnes"]:.0f} t/yr Indian fastener maker asks what to do about CBAM before 2034.
+**Question.** A {a["tonnes"]:.0f} t/yr Indian fastener maker asks what to do about CBAM before 2034.
 
-**Answer.** Buy verified rod from your current mill and verify your own plant. Do not wait, do not buy green steel yet, and do not leave the EU.
+**Answer.** Buy verified rod from your current mill and verify your own plant. Start now, keep low-carbon rod as the next step, and stay in the EU.
 
 | Position | Present-value hit, 2027-34 |
 |---|---|
@@ -270,24 +281,32 @@ def decision_page(n):
 | Stay on defaults | {money(pv["stay"])} |
 | Sell outside the EU | {money(pv["divert"])} |
 
-Hit is what the exporter absorbs after a Taiwanese rival's own default-route bill, plus fixed costs, at a flat EUR {n["generated_from"]["price_base"]}/t and 12%.
+Hit is what the exporter absorbs after a Taiwanese rival's own default-route bill, plus fixed costs, at a flat EUR {n["generated_from"]["price_base"]}/t and 12%. Verified rod is set at {a["s_mill"]:.2f} tCO2e/t: the median of ten Indian plants in a draft government schedule, plus 0.1 for rolling.
 
 ## Why
 
-1. **The bill is real now.** The "2.5% in 2026" shorthand holds only at the benchmark. Certificates are `embedded emissions - free allocation`, and free allocation is a benchmark amount. India's marked-up default for bolts is {h["benchmark_multiple"]:.1f}x that benchmark, so {h["payable_share_2026"]:.0%} of embedded emissions is charged in 2026, not 2.5%. That is {r26["net"]:.2f} certificates a tonne against {r26["naive"]:.2f}, a factor of {h["ratio_2026"]:.0f}.
-2. **The cost is large against the price.** On defaults, a tonne of bolts carries {money(r27["cost"])} in 2027 ({r27["pct_value"]:.0%} of the 2025 EU import price), rising to {money(r34["cost"])} by 2034 ({r34["pct_value"]:.0%}).
-3. **The money is in the rod.** Verifying the plant alone saves {money(n["saving_stay_to_verify_pv"])}. Adding verified rod saves {money(n["saving_stay_to_mill_pv"])}. {n["share_of_prize_from_rod"]:.0%} of the prize comes from the mill's report.
-4. **Green steel loses for now.** Free allocation falls with the cleaner route, which takes back {route_take:.0%} of the gain in 2027.
+1. **The bill is large now.** The "2.5% in 2026" shorthand holds only at the benchmark. Certificates are `embedded emissions - free allocation`, and free allocation is a benchmark amount. India's marked-up default for bolts is {h["benchmark_multiple"]:.1f}x that benchmark, so {h["payable_share_2026"]:.0%} of embedded emissions is charged in 2026. That is {r26["net"]:.2f} certificates a tonne against {r26["naive"]:.2f} on the shorthand.
+2. **The cost is heavy against the price.** On defaults, a tonne of bolts carries {money(r27["cost"])} in 2027 ({r27["pct_value"]:.0%} of the 2025 EU import price), rising to {money(r34["cost"])} by 2034 ({r34["pct_value"]:.0%}).
+3. **Most of the saving sits in the rod.** Verifying the plant alone saves {money(n["saving_stay_to_verify_pv"])}. Adding verified rod saves {money(n["saving_stay_to_mill_pv"])}. {n["share_of_prize_from_rod"]:.0%} of the prize comes from the mill's report.
+4. **Low-carbon rod comes second.** Free allocation falls with the cleaner route, which takes back {route_take:.0%} of the gain in 2027.
 
 ## Triggers
 
 - Verified rod beats defaults above **{f["tonnes_mill_pv"]:.0f} t/yr** of EU sales. Verifying the plant alone needs {f["tonnes_verify_pv"]:.0f} t/yr.
-- Any verified rod below **{f["intensity_2028"]:.2f} tCO2e/t** beats the marked-up default from 2028.
-- Low-carbon rod beats verified rod if the mill is above **{f["mill_vs_green"]:.1f} tCO2e/t**, or if carbon passes **EUR {f["carbon_price_2034"]:.0f}/t** in 2034 at a EUR {n["archetype_premium"]:.0f}/t premium.
+- Low-carbon rod beats verified rod if the mill is above **{f["mill_vs_green"]:.1f} tCO2e/t**. All ten plants in the draft schedule sit below that line.
+- It also wins in 2034 if carbon passes **EUR {f["carbon_price_2034"]:.0f}/t** at a EUR {n["archetype_premium"]:.0f}/t premium, close to today's price, so this needs another look around 2030.
+
+## Outside checks
+
+The European Fastener Distributor Association publishes the same formula and eight worked examples. Seven match this model to the cent. The eighth, an Indian line, matches on EFDA's benchmark of 1.364; the Commission's file marks that line stainless (1.154), which would give EUR 413.35 and which is left open here. Crowe UK's rough figures for Taiwan, Turkiye and China are within 10%.
+
+## The EU buyer
+
+On bolts CBAM cuts India's price gap to Taiwan from EUR {n["buyer_taiwan"][0]:.0f} to EUR {n["buyer_taiwan"][1]:.0f} a tonne and the order of suppliers stays the same. On hot-rolled plate India moves from number {shift["plate"]["before"]} to number {shift["plate"]["after"]} of {shift["plate"]["of"]} origins, cheapest first. Unit values mix grades, so these are guides, not quotes.
 
 ## Sector
 
-India's in-scope exports to the EU were {money(s["scope_value"])} in 2025 ({s["scope_tonnes"] / 1e6:.2f} Mt). On defaults that is {money(s["by_year"][0]["bill"])} in 2026, {s["by_year"][0]["pct"]:.0%} of value, against EUR {s["by_year"][0]["naive"] / 1e6:.0f}M on the shorthand. Outside estimates are lower: FEPS-NIPFP 16% of 2022 unit value, Sentra.world 10-20% of product cost. Commodity grades carry the most, at up to {max(r["pct"]["2026"] if "2026" in r["pct"] else r["pct"][2026] for r in s["top_lines"]):.0%} of value in 2026.
+India's in-scope exports to the EU were {money(s["scope_value"])} in 2025 ({s["scope_tonnes"] / 1e6:.2f} Mt). On defaults that is {money(s["by_year"][0]["bill"])} in 2026, {s["by_year"][0]["pct"]:.0%} of value, against EUR {s["by_year"][0]["naive"] / 1e6:.0f}M on the shorthand. FEPS-NIPFP estimated 16% of 2022 unit value and Sentra.world 10-20% of product cost.
 
 ## Diverting
 
@@ -297,14 +316,40 @@ The EU took {g["EU27"]["kt"] / world:.0%} of India's 2025 bolt tonnes. Rest-of-w
 
 Through {t["last_month"]}, the average effect of the default burden on EU imports is not distinguishable from zero (beta {e["base"]["beta"]:.2f}, se {e["base"]["se"]:.2f}; placebo t {e["placebo_2025"]["t"]:.1f}). A stricter version gives {e["with_origin_month"]["beta"]:.2f} (t {e["with_origin_month"]["t"]:.1f}), but its pre-2026 points are not flat, so it is not relied on. Certificates are not on sale until February 2027.
 
-## Honest limits
+## Limits
 
 - No exporter, mill or verifier was interviewed. The exporter is fictional.
-- No Indian mill's verified figure is public. 2.6 tCO2e/t is an estimate and the largest risk.
-- Verification cost is a press figure at its upper end. Treble it and the trigger is {next(r["flip_tonnes"] for r in n["stress"] if r["case"].startswith("Verification")):.0f} t/yr.
+- Plant figures are draft baselines for crude steel, read from a secondary source. They are not verified CBAM values.
+- Verification cost is a press figure at its upper end. Treble it and the trigger is {stress["Verification costs three times more"]["flip_tonnes"]:.0f} t/yr.
+- EFDA reports that forging itself sits outside the boundary. The model keeps the plant's emissions in, which is the cautious side; taking them out moves the verified-rod hit to {money(stress["Forging outside the boundary (own plant 0)"]["mill"])}.
+- EFDA expects a verifier bottleneck. If verified data slips to 2029 the ranking holds.
 - Coverage of 7318 and 7326 by the steel quotas is inferred; Annex I of Reg. 2026/1384 was not read.
 - Carbon is flat at the latest quarterly price, not a forecast.
 """
+
+
+def external_checks():
+    def cost(origin, code):
+        default, route = default_for(origin, code)
+        return certificates(see_default(default, 2026), sefa_default(benchmark_b(code, route, 2026), 2026)) * 80.0
+
+    rows = [{"who": "EFDA", "case": f"{name}, CN {code}", "published": p, "model": cost(o, code), "note": ""}
+            for name, o, code, p in EFDA_EXAMPLES]
+    name, o, code, p = EFDA_INDIA
+    rows.append({"who": "EFDA", "case": f"{name}, CN {code}", "published": p, "model": cost(o, "731815"),
+                 "note": f"Matches on EFDA's benchmark of 1.364. The Commission's file marks this line stainless (1.154), which gives EUR {cost(o, code):.2f}."})
+    crowe = [{"who": "Crowe UK", "case": f"{n}, bolts at EUR 90", "published": q,
+              "model": x.net_certificates(o, "731815", 2026) * 90, "note": "Rough figure"} for n, o, q in CROWE_EXAMPLES]
+    return rows + crowe
+
+
+def buyer_payload(hs6, name):
+    rows = []
+    for o, (uv, t) in buyer.suppliers(hs6).items():
+        row = default_for(o, hs6)
+        rows.append({"origin": o, "name": ORIGIN_NAMES.get(o, o), "uv": uv, "tonnes": t, "d": row[0],
+                     "bm": [benchmark_b(hs6, row[1], y) for y in YEARS]})
+    return {"hs6": hs6, "name": name, "rows": rows}
 
 
 def main():
@@ -325,7 +370,7 @@ def main():
         "generated_from": {"eurostat_last_month": te.months_available()[-1], "price_base": PRICE_BASE,
                            "price_2026_q": PRICE_2026_Q, "eur_inr": EUR_INR, "usd_per_eur": USD_PER_EUR},
         "headline": headline(),
-        "archetype": {"own_process": e.own, "mass_ratio": e.mass_ratio, "default": e.default,
+        "archetype": {"own_process": e.own, "mass_ratio": e.mass_ratio, "default": e.default, "s_mill": e.s_mill,
                       "precursor_default": e.default_precursor, "tonnes": e.tonnes, "rival": e.rival,
                       "precursor_share_2027": e.mass_ratio * see_default(e.default_precursor, y0) /
                       (e.own + e.mass_ratio * see_default(e.default_precursor, y0))},
@@ -336,6 +381,15 @@ def main():
         "annual_2027": d.annual_hit(e, y0),
         "share_of_prize_from_rod": 1 - (pos[y0]["stay"] - pos[y0]["verify"]) / (pos[y0]["stay"] - pos[y0]["mill"]),
         "flips": flips,
+        "sensitivity": d.sensitivity(e),
+        "checks": external_checks(),
+        "mills": [{"name": m, "baseline": v, "rod": v + ROLLING_ADD} for m, v in MILLS],
+        "buyer_taiwan": [buyer.gap_to("731815", "TW")[0], buyer.gap_to("731815", "TW")[1], buyer.gap_to("731815", "TW", year=2034)[1]],
+        "buyer_korea_plate": list(buyer.gap_to("720851", "KR")),
+        "buyer_shift": {"bolts": buyer.rank_shift("731815"), "plate": buyer.rank_shift("720851"),
+                        "sheet": buyer.rank_shift("721049"), "articles": buyer.rank_shift("732690")},
+        "buyer_pin": {h: [{"origin": r["origin"], "landed": r["landed"]} for r in buyer.landed(h, 2027)]
+                      for h, _ in BUYER_PRODUCTS},
         "sector": sector(base),
         "origins_bolts": origins("731815", base),
         "origins_rod": origins("721391", base),
@@ -361,17 +415,24 @@ def main():
                      "price_loss_divert": e.price_loss_divert, "rival": e.rival},
         "numbers": {k: numbers[k] for k in ("headline", "pv", "best", "flips", "sector", "origins_bolts", "markets", "world_kt_bolts",
                                             "stress", "trade", "archetype", "ablations", "share_of_prize_from_rod",
-                                            "divert_price_loss", "saving_stay_to_mill_pv", "annual_2027", "positions")},
+                                            "divert_price_loss", "saving_stay_to_mill_pv", "saving_stay_to_verify_pv", "annual_2027",
+                                            "positions", "sensitivity", "checks", "mills", "buyer_taiwan", "buyer_korea_plate",
+                                            "buyer_shift", "buyer_pin")},
+        "sensitivity_ranges": SENSITIVITY,
+        "buyer": [buyer_payload(*b) for b in BUYER_PRODUCTS],
         "sources": [{"id": k, "title": v[0], "tag": v[1], "url": v[2]} for k, v in SOURCES.items()],
         "assumptions": [{"key": k, "value": v[0], "name": v[1], "unit": v[2], "why": v[3], "source": v[4]}
                         for k, v in ASSUMPTIONS.items()],
         "work": {"sources": len(SOURCES), "trade_rows": len(x.trade()), "origins": len(ORIGIN_NAMES),
                  "default_rows": sum(1 for _ in (ROOT / "data/raw/defaults_official.csv").open()) - 1,
                  "benchmark_rows": sum(1 for _ in (ROOT / "data/raw/benchmarks_official.csv").open()) - 1,
-                 "tests": sum(p.read_text().count("def test_") for p in (ROOT / "tests").glob("test_*.py")),
-                 "stress_cases": len(numbers["stress"])},
+                 # parametrized tests run once per published example
+                 "tests": sum(p.read_text().count("def test_") for p in (ROOT / "tests").glob("test_*.py"))
+                 + len(EFDA_EXAMPLES) + len(CROWE_EXAMPLES) - 2,
+                 "stress_cases": len(numbers["stress"]), "js_checks": 0},
         "pins": pins(),
     }
+    site["work"]["js_checks"] = 9 * len(site["pins"]) + 6 + 2 * len(YEARS) + 3 * len(numbers["sensitivity"]) + 2 * sum(len(b["rows"]) for b in site["buyer"])
     (ROOT / "site/data.json").write_text(json.dumps(finite(site), separators=(",", ":")))
     print(json.dumps({k: numbers[k] for k in ("pv", "best", "flips", "share_of_prize_from_rod")}, indent=1)[:1800])
     return numbers

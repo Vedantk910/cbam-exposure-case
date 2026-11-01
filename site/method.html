@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How I Worked</title>
+<meta name="description" content="The dates, decisions, mistakes, tests and attacks behind the CBAM case, and what it does not show.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=7">
+</head>
+<body data-page="method">
+<a class="skip" href="#log">Skip to the project log</a>
+<header class="bar">
+  <a class="brand" href="index.html">CBAM Exposure Case</a>
+  <nav aria-label="Pages">
+    <a href="index.html">The case</a>
+    <a href="learn.html">How CBAM works</a>
+    <a href="tool.html">Decision tool</a>
+    <a href="evidence.html">Evidence</a>
+    <a href="method.html" aria-current="page">How I worked</a>
+    <a href="sources.html">Sources</a>
+    <a href="https://github.com/Vedantk910/cbam-exposure-case">Code</a>
+    <button id="theme" type="button">Dark</button>
+  </nav>
+</header>
+
+<main>
+<p class="status" id="status" role="status">Loading the figures.</p>
+
+<section class="page-head">
+  <h1>How I worked on it</h1>
+  <p class="lede">This is the third case in a set. The first asks whether to acquire, the second whether to enter a market, and this one what to do when a regulator redraws your cost curve. The record below shows how it moved, including the parts that went wrong.</p>
+</section>
+
+<section id="log" class="sec">
+  <h2>Project log</h2>
+  <ol class="timeline log">
+    <li><time>27 Oct 2026</time><span>The project starts as a plan for a software tool that turns an exporter's bills into a CBAM estimate. I set the scope to steel and aluminium goods. The working notes take one bolt maker through the implementing regulation.</span></li>
+    <li><time>28 Oct 2026</time><span>The calculation spec is written, with 27 test cases set out before any code exists.</span></li>
+    <li><time>1 Nov 2026</time><span>I change the goal from a software product to a strategy case with a working tool, in the format of my two earlier cases. A check against the Commission's Q&amp;A overturns the plan's main finding, and the case is rebuilt on official data and published.</span></li>
+    <li><time>1 Nov 2026</time><span>A review of the live site finds the tool drifting from the report through slider rounding. That gets fixed and locked with a test.</span></li>
+    <li><time>1 Nov 2026</time><span>Second pass. Real plant data replaces my rod estimate, a trade body's worked examples become an outside test, and the EU buyer's side and the dependency map go in.</span></li>
+  </ol>
+</section>
+
+<section class="sec">
+  <h2>What changed as the evidence came in</h2>
+  <div class="changes">
+    <h3>The plan's main finding was wrong</h3>
+    <p>The first notes put a verified figure at about €1,400 for 2026, so verification could wait. They had taken the 2.5% at face value. The Commission's Q&amp;A shows free allocation is subtracted as a benchmark amount. That moved the 2026 figure by a factor of <span data-v="ratio"></span> and reversed the advice.</p>
+    <h3>The first yardstick was broken</h3>
+    <p>I began with the combined cost to exporter and importer, which made leaving the EU look free. Rebuilding it around what the exporter absorbs after a rival's own CBAM bill fixed that, and the flip points stayed the same.</p>
+    <h3>The first regression failed its placebo</h3>
+    <p>A fake start date in 2025 gave a t-statistic above 3, so the design was picking up something else. Each product's burden had been set from 2025 prices, and those move with 2025 tonnes. Moving the base to 2023 took the placebo to <span data-v="placeboT"></span> and removed a 2025 surge that had looked like front-running.</p>
+    <h3>One outside figure did not survive a source check</h3>
+    <p>An early draft quoted a 15 to 22% estimate from a think tank. When the cited pages were read, the figure was not on any of them, so it came out.</p>
+    <h3>The rod estimate was too kind</h3>
+    <p>The first version assumed 2.6 tCO₂e/t. Ten named plants in India's draft schedule have a median of <span data-v="millMedian"></span>, so the base case moved to <span data-v="sMill"></span>. The result got worse and the ranking held.</p>
+    <h3>Some sources stayed closed</h3>
+    <p>EUR-Lex refuses automated access, so the formula comes from the Commission's Q&amp;A and benchmark files, and the steel quota's product list is unread. Whether quotas touch fasteners stays marked as inferred.</p>
+  </div>
+</section>
+
+<section class="sec">
+  <h2>The seven gates</h2>
+  <p class="wide">Each gate leaves something a reader can open and check.</p>
+  <div class="scrollx" tabindex="0" role="region" aria-label="Gates"><table class="plain">
+    <thead><tr><th>Gate</th><th>What it required</th><th>Where to check it</th></tr></thead>
+    <tbody>
+      <tr><td>Scope</td><td>One decision for one exporter, as five positions that cover every move.</td><td><a href="https://github.com/Vedantk910/cbam-exposure-case/blob/main/docs/00-PROJECT-BLUEPRINT.md">Blueprint</a></td></tr>
+      <tr><td>Build</td><td>Official files and Eurostat into tagged facts, then small model modules.</td><td><a href="https://github.com/Vedantk910/cbam-exposure-case/blob/main/data/facts.py">Facts</a>, <a href="https://github.com/Vedantk910/cbam-exposure-case/tree/main/model">model</a></td></tr>
+      <tr><td>Test</td><td><span data-v="tests"></span> tests, including figures published by other people.</td><td><a href="https://github.com/Vedantk910/cbam-exposure-case/tree/main/tests">Tests</a></td></tr>
+      <tr><td>Verify</td><td>One command regenerates every number. The report and this site read only that output.</td><td><a href="https://github.com/Vedantk910/cbam-exposure-case/blob/main/run_case.py">Pipeline</a></td></tr>
+      <tr><td>Stress</td><td><span data-v="stressN"></span> cases and four ablations.</td><td><a href="#stress-cases">Below</a></td></tr>
+      <tr><td>Document</td><td>Every fact tagged, every limit stated.</td><td><a href="https://github.com/Vedantk910/cbam-exposure-case/blob/main/report/decision_page.md">Decision page</a></td></tr>
+      <tr><td>Hostile pass</td><td>The attacks a partner would make, answered with numbers.</td><td><a href="#attacks-table">Below</a></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="sec">
+  <h2>The work, counted</h2>
+  <dl class="counts">
+    <div><dd data-v="wSources"></dd><dt>sources logged and tagged</dt></div>
+    <div><dd data-v="wRows"></dd><dt>Eurostat monthly rows</dt></div>
+    <div><dd data-v="wDefaults"></dd><dt>official default rows across 15 tables</dt></div>
+    <div><dd data-v="wBench"></dd><dt>official benchmark rows</dt></div>
+    <div><dd data-v="tests"></dd><dt>automated tests</dt></div>
+    <div><dd data-v="wChecks"></dd><dt>Python-to-JavaScript checks</dt></div>
+  </dl>
+</section>
+
+<section class="sec" id="attacks-table">
+  <h2>The hostile pass</h2>
+  <div class="scrollx" tabindex="0" role="region" aria-label="Attacks and answers"><table class="plain attack" id="attacks"></table></div>
+  <details class="more" id="stress-cases"><summary>All <span data-v="stressN"></span> stress cases and the ablations</summary>
+    <div class="scrollx" tabindex="0" role="region" aria-label="Stress cases"><table class="plain" id="stress"></table></div>
+    <div class="scrollx" tabindex="0" role="region" aria-label="Ablations"><table class="plain" id="ablate"></table></div>
+  </details>
+  <details class="more"><summary>Every assumption, and why</summary>
+    <div class="scrollx" tabindex="0" role="region" aria-label="Assumptions"><table class="plain" id="assumptions"></table></div>
+  </details>
+</section>
+
+<section class="sec">
+  <h2>Skills used</h2>
+  <div class="scrollx" tabindex="0" role="region" aria-label="Skills"><table class="plain">
+    <tbody>
+      <tr><td>Case work</td><td>Structuring a decision into positions that cover every move, answer-first writing, working through who gains and who pays</td></tr>
+      <tr><td>Regulation</td><td>Reading CBAM law and Commission guidance, tracing a rule from text to arithmetic</td></tr>
+      <tr><td>Finance</td><td>Present value, closed-form break-evens, scenario and sensitivity analysis</td></tr>
+      <tr><td>Econometrics</td><td>Fixed-effects panels, event studies, clustered errors, placebo tests</td></tr>
+      <tr><td>Data</td><td>Python, numpy, Eurostat SDMX, UN Comtrade, parsing official workbooks</td></tr>
+      <tr><td>Product</td><td>HTML, CSS, JavaScript, SVG charts, automated tests, CI</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="sec">
+  <h2>The outcome</h2>
+  <div class="two">
+    <div>
+      <h3>What it delivers</h3>
+      <ul class="tight">
+        <li>A corrected reading of the free allocation rule, with a trade body's guide agreeing.</li>
+        <li>A ranked answer and the triggers that would change it.</li>
+        <li>A public tool for both sides of the trade, with no login.</li>
+        <li>A repository where one command reproduces every number here.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>What it does not show</h3>
+      <ul class="tight">
+        <li>No exporter, mill or verifier was interviewed, and the exporter is fictional.</li>
+        <li>No Indian mill's verified CBAM figure is public. Plant numbers are draft baselines.</li>
+        <li>Verifier fees are unpublished. The cost here is a press figure at its upper end.</li>
+        <li>Unit values are customs averages, so they are not contract prices.</li>
+        <li>Carbon is held flat at the latest quarterly price, which is no forecast.</li>
+      </ul>
+    </div>
+  </div>
+  <h3>What I would do next</h3>
+  <p class="wide">Ask five mills whether they hold a verification report and at what intensity, and ask five exporters what their buyers have requested so far. Those two conversations test the inputs carrying the most weight, and nothing on this site can stand in for them.</p>
+</section>
+</main>
+
+<footer><p>Vedant Konde. Estimates for study, not legal or compliance advice. Rules as of October 2026.</p></footer>
+<div class="tip" id="tip" role="status" hidden></div>
+<script src="engine.js?v=7"></script>
+<script src="app.js?v=7"></script>
+</body>
+</html>

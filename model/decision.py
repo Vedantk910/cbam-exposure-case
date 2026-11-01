@@ -9,9 +9,9 @@ CBAM bill, and the exporter absorbs the rest:
 The rival term cancels in every comparison between positions that stay in the EU, so the
 flips below do not depend on who the rival is. It only matters against diverting.
 """
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 
-from data.facts import ARCHETYPE, CBAM_FACTOR_LAW, FUEL, PRICE_BASE, YEARS, assumption
+from data.facts import ARCHETYPE, CBAM_FACTOR_LAW, FUEL, PRICE_BASE, SENSITIVITY, YEARS, assumption
 from data.tables import benchmark_a, benchmark_b, default_for
 from model.exposure import divert_price_loss, net_certificates
 from model.obligation import (certificates, see_actual, see_default, sefa_actual, sefa_default)
@@ -144,6 +144,30 @@ def flip_mill_intensity(e, price=PRICE_BASE, schedule=CBAM_FACTOR_LAW, rate=None
     pv = present_hit(e, price, schedule, rate, start)
     weight = sum(1 / (1 + rate) ** (y - start) for y in YEARS if y >= start)
     return e.s_mill + (pv["green"] - pv["mill"]) / (weight * e.mass_ratio * price * e.tonnes)
+
+
+def sensitivity(e, price=PRICE_BASE, schedule=CBAM_FACTOR_LAW, rate=None, start=None):
+    """How far each input moves the value of verified rod over staying on defaults."""
+    rate = assumption("discount_rate") if rate is None else rate
+    start = assumption("first_verified_year") if start is None else start
+
+    def run(key, value):
+        kw = {"price": price, "rate": rate}
+        if key in kw:
+            kw[key] = value
+            v = e
+        else:
+            v = replace(e, **{key: value})
+        best, pv = recommend(v, schedule=schedule, start=start, **kw)
+        return pv["stay"] - pv["mill"], best
+
+    rows = []
+    for key, label, low, high in SENSITIVITY:
+        lo, best_lo = run(key, low)
+        hi, best_hi = run(key, high)
+        rows.append({"key": key, "label": label, "low": low, "high": high, "at_low": lo, "at_high": hi,
+                     "best_low": best_lo, "best_high": best_hi})
+    return sorted(rows, key=lambda r: -abs(r["at_high"] - r["at_low"]))
 
 
 def flip_intensity(e, year):

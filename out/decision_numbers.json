@@ -115,6 +115,7 @@
   "own_process": 0.4462927,
   "mass_ratio": 1.0833333333333333,
   "default": 5.72,
+  "s_mill": 3.06,
   "precursor_default": 4.27,
   "tonnes": 600.0,
   "rival": "TW",
@@ -124,95 +125,685 @@
   "2026": {
    "stay": 4.9620999999999995,
    "verify": 4.056934366666666,
-   "mill": 1.7851843666666662,
+   "mill": 2.2835177,
    "green": 1.4228635333333335
   },
   "2027": {
    "stay": 5.5682,
    "verify": 4.557409366666666,
-   "mill": 1.823076033333333,
+   "mill": 2.3214093666666664,
    "green": 1.4256010333333333
   },
   "2028": {
    "stay": 6.2084,
    "verify": 5.0957760333333315,
-   "mill": 1.8988593666666662,
+   "mill": 2.3971926999999997,
    "green": 1.4310760333333334
   },
   "2029": {
    "stay": 6.3789,
    "verify": 5.285234366666665,
-   "mill": 2.0883176999999993,
+   "mill": 2.5866510333333332,
    "green": 1.4447635333333333
   },
   "2030": {
    "stay": 6.73354,
    "verify": 5.679307699999999,
-   "mill": 2.4823910333333328,
+   "mill": 2.9807243666666663,
    "green": 1.4732335333333333
   },
   "2031": {
    "stay": 6.90404,
    "verify": 5.868766033333332,
-   "mill": 2.6718493666666663,
+   "mill": 3.1701827,
    "green": 1.4869210333333334
   },
   "2032": {
    "stay": 7.07454,
    "verify": 6.058224366666665,
-   "mill": 2.8613077,
+   "mill": 3.3596410333333333,
    "green": 1.5006085333333334
   },
   "2033": {
    "stay": 7.2450399999999995,
    "verify": 6.247682699999999,
-   "mill": 3.050766033333333,
+   "mill": 3.5490993666666664,
    "green": 1.5142960333333333
   },
   "2034": {
    "stay": 7.436,
    "verify": 6.459876033333332,
-   "mill": 3.2629593666666663,
+   "mill": 3.7612927,
    "green": 1.5296260333333334
   }
  },
  "pv": {
   "stay": 1061502.1415367527,
   "verify": 878624.390012108,
-  "mill": 22943.420127453945,
+  "mill": 159887.94317284235,
   "green": 416702.50135360914,
   "divert": 1306319.7586839334
  },
  "best": "mill",
- "saving_stay_to_mill_pv": 1038558.7214092987,
+ "saving_stay_to_mill_pv": 901614.1983639103,
  "saving_stay_to_verify_pv": 182877.75152464467,
  "annual_2027": {
   "stay": 178581.71520000004,
   "verify": 147346.74423839996,
-  "mill": 12292.552238399996,
+  "mill": 36906.2322384,
   "green": 109010.46703840002,
   "divert": 234790.9635441702
  },
- "share_of_prize_from_rod": 0.7301048931010461,
+ "share_of_prize_from_rod": 0.6886800698030839,
  "flips": {
-  "tonnes_mill_pv": 54.60786905109046,
+  "tonnes_mill_pv": 62.04446667678315,
   "tonnes_verify_pv": 217.49639989421632,
-  "tonnes_mill_2027": 60.623044349746166,
+  "tonnes_mill_2027": 69.92776620568172,
   "premium": {
-   "2026": 27.531923999999954,
-   "2027": 30.203207999999965,
-   "2028": 35.54577599999996,
-   "2029": 48.90219599999995,
-   "2030": 76.68354959999996,
-   "2031": 90.03996959999998,
-   "2032": 103.39638959999996,
-   "2033": 116.75280959999996,
-   "2034": 131.71199999999996
+   "2026": 65.39912399999999,
+   "2027": 68.07040799999997,
+   "2028": 73.41297599999997,
+   "2029": 86.769396,
+   "2030": 114.55074959999997,
+   "2031": 127.90716959999999,
+   "2032": 141.2635896,
+   "2033": 154.62000959999997,
+   "2034": 169.5792
   },
-  "carbon_price_2034": 111.87500000000001,
-  "carbon_price_2030": 192.1569890395372,
+  "carbon_price_2034": 86.89320388349515,
+  "carbon_price_2030": 128.63538694817936,
   "intensity_2028": 5.550999999999999,
   "mill_vs_green": 3.9226463777890457
+ },
+ "sensitivity": [
+  {
+   "key": "tonnes",
+   "label": "Tonnes sold to the EU a year",
+   "low": 100.0,
+   "high": 2000.0,
+   "at_low": 63613.52496791932,
+   "at_high": 3248016.0838726833,
+   "best_low": "mill",
+   "best_high": "mill"
+  },
+  {
+   "key": "price",
+   "label": "Carbon price, EUR/t",
+   "low": 40.0,
+   "high": 150.0,
+   "at_low": 384643.52054877416,
+   "at_high": 1728376.3787639202,
+   "best_low": "mill",
+   "best_high": "green"
+  },
+  {
+   "key": "rate",
+   "label": "Discount rate",
+   "low": 0.08,
+   "high": 0.2,
+   "at_low": 1007772.4403504969,
+   "at_high": 742983.7362807775,
+   "best_low": "mill",
+   "best_high": "mill"
+  },
+  {
+   "key": "verify_cost",
+   "label": "Verification a year, EUR",
+   "low": 9000.0,
+   "high": 56000.0,
+   "at_low": 955526.9992254562,
+   "at_high": 694030.4418990728,
+   "best_low": "mill",
+   "best_high": "mill"
+  },
+  {
+   "key": "s_mill",
+   "label": "Your mill's verified rod, tCO2e/t",
+   "low": 2.46,
+   "high": 3.31,
+   "at_low": 1080237.489292678,
+   "at_high": 827187.8271435905,
+   "best_low": "mill",
+   "best_high": "mill"
+  },
+  {
+   "key": "own",
+   "label": "Own plant, tCO2/t of good",
+   "low": 0.0,
+   "high": 0.9,
+   "at_low": 1024257.6918892721,
+   "at_high": 776933.135218671,
+   "best_low": "mill",
+   "best_high": "mill"
+  },
+  {
+   "key": "mass_ratio",
+   "label": "Steel used per tonne of good",
+   "low": 1.02,
+   "high": 1.2,
+   "at_low": 941187.2810926309,
+   "at_high": 828716.4143899514,
+   "best_low": "mill",
+   "best_high": "mill"
+  }
+ ],
+ "checks": [
+  {
+   "who": "EFDA",
+   "case": "Viet Nam, CN 73181588",
+   "published": 135.61,
+   "model": 135.60800000000003,
+   "note": ""
+  },
+  {
+   "who": "EFDA",
+   "case": "Taiwan, CN 73181499",
+   "published": 131.85,
+   "model": 131.82399999999998,
+   "note": ""
+  },
+  {
+   "who": "EFDA",
+   "case": "Viet Nam, CN 73181568",
+   "published": 135.61,
+   "model": 135.60800000000003,
+   "note": ""
+  },
+  {
+   "who": "EFDA",
+   "case": "China, CN 73181575",
+   "published": 471.03,
+   "model": 470.98800000000006,
+   "note": ""
+  },
+  {
+   "who": "EFDA",
+   "case": "China, CN 73181692",
+   "published": 337.61,
+   "model": 337.568,
+   "note": ""
+  },
+  {
+   "who": "EFDA",
+   "case": "T\u00fcrkiye, CN 73181692",
+   "published": 227.13,
+   "model": 227.12800000000001,
+   "note": ""
+  },
+  {
+   "who": "EFDA",
+   "case": "Malaysia, CN 73182200",
+   "published": 273.93,
+   "model": 273.9440000000001,
+   "note": ""
+  },
+  {
+   "who": "EFDA",
+   "case": "India, CN 73181562",
+   "published": 396.97,
+   "model": 396.96799999999996,
+   "note": "Matches on EFDA's benchmark of 1.364. The Commission's file marks this line stainless (1.154), which gives EUR 413.35."
+  },
+  {
+   "who": "Crowe UK",
+   "case": "Taiwan, bolts at EUR 90",
+   "published": 150,
+   "model": 148.302,
+   "note": "Rough figure"
+  },
+  {
+   "who": "Crowe UK",
+   "case": "T\u00fcrkiye, bolts at EUR 90",
+   "published": 400,
+   "model": 417.87899999999996,
+   "note": "Rough figure"
+  },
+  {
+   "who": "Crowe UK",
+   "case": "China, bolts at EUR 90",
+   "published": 500,
+   "model": 511.43399999999997,
+   "note": "Rough figure"
+  }
+ ],
+ "mills": [
+  {
+   "name": "Tata Steel Jamshedpur",
+   "baseline": 2.363,
+   "rod": 2.463
+  },
+  {
+   "name": "Tata Steel Kalinganagar",
+   "baseline": 2.4891,
+   "rod": 2.5891
+  },
+  {
+   "name": "JSW Steel Vijayanagar",
+   "baseline": 2.6178,
+   "rod": 2.7178
+  },
+  {
+   "name": "JSW Steel Dolvi",
+   "baseline": 2.7222,
+   "rod": 2.8222
+  },
+  {
+   "name": "SAIL Rourkela",
+   "baseline": 2.9509,
+   "rod": 3.0509
+  },
+  {
+   "name": "RINL Visakhapatnam",
+   "baseline": 2.9781,
+   "rod": 3.0781
+  },
+  {
+   "name": "Jindal Steel & Power Angul",
+   "baseline": 3.1376,
+   "rod": 3.2376
+  },
+  {
+   "name": "SAIL Durgapur",
+   "baseline": 3.1452,
+   "rod": 3.2452
+  },
+  {
+   "name": "SAIL Bhilai",
+   "baseline": 3.1487,
+   "rod": 3.2487
+  },
+  {
+   "name": "SAIL Bokaro",
+   "baseline": 3.2056,
+   "rod": 3.3056
+  }
+ ],
+ "buyer_taiwan": [
+  540.0787994544744,
+  267.24562345447475,
+  217.6395914544746
+ ],
+ "buyer_korea_plate": [
+  69.84755657263963,
+  -125.92586742736046
+ ],
+ "buyer_shift": {
+  "bolts": {
+   "before": 5,
+   "after": 5,
+   "of": 12
+  },
+  "plate": {
+   "before": 3,
+   "after": 8,
+   "of": 9
+  },
+  "sheet": {
+   "before": 3,
+   "after": 11,
+   "of": 12
+  },
+  "articles": {
+   "before": 7,
+   "after": 7,
+   "of": 13
+  }
+ },
+ "buyer_pin": {
+  "731815": [
+   {
+    "origin": "TH",
+    "landed": 1545.558933209272
+   },
+   {
+    "origin": "VN",
+    "landed": 1724.1516908332842
+   },
+   {
+    "origin": "MY",
+    "landed": 2119.950207033762
+   },
+   {
+    "origin": "CN",
+    "landed": 2352.351053596465
+   },
+   {
+    "origin": "IN",
+    "landed": 3107.6516704742617
+   },
+   {
+    "origin": "TW",
+    "landed": 3350.0942779287357
+   },
+   {
+    "origin": "ID",
+    "landed": 3935.961979762701
+   },
+   {
+    "origin": "TR",
+    "landed": 3941.521427057575
+   },
+   {
+    "origin": "KR",
+    "landed": 4398.9892476960395
+   },
+   {
+    "origin": "JP",
+    "landed": 7573.5816355923
+   },
+   {
+    "origin": "GB",
+    "landed": 9249.200580196477
+   },
+   {
+    "origin": "US",
+    "landed": 42979.47490418247
+   }
+  ],
+  "731816": [
+   {
+    "origin": "TH",
+    "landed": 2305.7250810699975
+   },
+   {
+    "origin": "CN",
+    "landed": 2416.568342850708
+   },
+   {
+    "origin": "MY",
+    "landed": 3065.8549730453738
+   },
+   {
+    "origin": "TW",
+    "landed": 3839.132223866674
+   },
+   {
+    "origin": "TR",
+    "landed": 4185.1517399476415
+   },
+   {
+    "origin": "IN",
+    "landed": 5547.780104802743
+   },
+   {
+    "origin": "KR",
+    "landed": 6578.596496337679
+   },
+   {
+    "origin": "JP",
+    "landed": 6946.664605408908
+   }
+  ],
+  "732690": [
+   {
+    "origin": "UA",
+    "landed": 2716.0784861854977
+   },
+   {
+    "origin": "TR",
+    "landed": 3095.4118420476957
+   },
+   {
+    "origin": "BR",
+    "landed": 3255.564834776028
+   },
+   {
+    "origin": "CN",
+    "landed": 3506.302674545086
+   },
+   {
+    "origin": "MY",
+    "landed": 3596.514797954097
+   },
+   {
+    "origin": "VN",
+    "landed": 4352.511759582646
+   },
+   {
+    "origin": "IN",
+    "landed": 4792.1108614252
+   },
+   {
+    "origin": "GB",
+    "landed": 4875.935116345507
+   },
+   {
+    "origin": "KR",
+    "landed": 5427.914452874997
+   },
+   {
+    "origin": "TH",
+    "landed": 6042.196898643174
+   },
+   {
+    "origin": "TW",
+    "landed": 9980.067339347577
+   },
+   {
+    "origin": "JP",
+    "landed": 10335.625517123051
+   },
+   {
+    "origin": "US",
+    "landed": 19131.524466146882
+   }
+  ],
+  "730890": [
+   {
+    "origin": "UA",
+    "landed": 2250.7101370589007
+   },
+   {
+    "origin": "CN",
+    "landed": 2318.5014891212572
+   },
+   {
+    "origin": "TR",
+    "landed": 2343.1827071264865
+   },
+   {
+    "origin": "MY",
+    "landed": 2433.5078809624906
+   },
+   {
+    "origin": "VN",
+    "landed": 2692.8557878108813
+   },
+   {
+    "origin": "IN",
+    "landed": 2866.8176761298523
+   },
+   {
+    "origin": "KR",
+    "landed": 4015.6680666879083
+   },
+   {
+    "origin": "GB",
+    "landed": 4092.0987305365784
+   },
+   {
+    "origin": "US",
+    "landed": 12138.032924419194
+   },
+   {
+    "origin": "TH",
+    "landed": 12929.341675827904
+   }
+  ],
+  "720851": [
+   {
+    "origin": "BR",
+    "landed": 685.3493711676092
+   },
+   {
+    "origin": "TR",
+    "landed": 723.4749289562787
+   },
+   {
+    "origin": "TW",
+    "landed": 742.902526503961
+   },
+   {
+    "origin": "KR",
+    "landed": 797.7290586162404
+   },
+   {
+    "origin": "JP",
+    "landed": 820.8207224329366
+   },
+   {
+    "origin": "CN",
+    "landed": 853.8917984189723
+   },
+   {
+    "origin": "GB",
+    "landed": 901.7459941810368
+   },
+   {
+    "origin": "IN",
+    "landed": 941.4525100436008
+   },
+   {
+    "origin": "ID",
+    "landed": 1332.105354341345
+   }
+  ],
+  "721049": [
+   {
+    "origin": "BR",
+    "landed": 754.0306706219657
+   },
+   {
+    "origin": "VN",
+    "landed": 807.5160536289474
+   },
+   {
+    "origin": "TW",
+    "landed": 818.4557004772252
+   },
+   {
+    "origin": "TH",
+    "landed": 830.8892069004062
+   },
+   {
+    "origin": "UA",
+    "landed": 840.8538732021175
+   },
+   {
+    "origin": "JP",
+    "landed": 854.9166570021305
+   },
+   {
+    "origin": "TR",
+    "landed": 859.5202377699704
+   },
+   {
+    "origin": "CN",
+    "landed": 946.8768667966311
+   },
+   {
+    "origin": "KR",
+    "landed": 962.318377032912
+   },
+   {
+    "origin": "GB",
+    "landed": 988.0190006586206
+   },
+   {
+    "origin": "IN",
+    "landed": 1003.1796971802588
+   },
+   {
+    "origin": "ID",
+    "landed": 1395.8577451753624
+   }
+  ],
+  "720917": [
+   {
+    "origin": "BR",
+    "landed": 667.8157478991809
+   },
+   {
+    "origin": "CN",
+    "landed": 721.9501672811676
+   },
+   {
+    "origin": "UA",
+    "landed": 738.5316379607257
+   },
+   {
+    "origin": "JP",
+    "landed": 742.5662170947435
+   },
+   {
+    "origin": "VN",
+    "landed": 769.8781089499189
+   },
+   {
+    "origin": "TW",
+    "landed": 782.4324629712859
+   },
+   {
+    "origin": "KR",
+    "landed": 792.2704713233129
+   },
+   {
+    "origin": "TR",
+    "landed": 799.0734558090209
+   },
+   {
+    "origin": "IN",
+    "landed": 949.2862733903777
+   },
+   {
+    "origin": "ID",
+    "landed": 1280.993299866335
+   }
+  ],
+  "722300": [
+   {
+    "origin": "IN",
+    "landed": 3180.706003643096
+   },
+   {
+    "origin": "ID",
+    "landed": 3541.9323772210546
+   },
+   {
+    "origin": "CN",
+    "landed": 3868.621986545908
+   },
+   {
+    "origin": "KR",
+    "landed": 4908.574389278886
+   }
+  ],
+  "760612": [
+   {
+    "origin": "JP",
+    "landed": 3423.867792788769
+   },
+   {
+    "origin": "CN",
+    "landed": 3496.4652751169433
+   },
+   {
+    "origin": "KR",
+    "landed": 3617.300440849759
+   },
+   {
+    "origin": "TR",
+    "landed": 3655.92766773622
+   },
+   {
+    "origin": "GB",
+    "landed": 4449.767154987794
+   },
+   {
+    "origin": "US",
+    "landed": 7758.3332714017115
+   }
+  ]
  },
  "sector": {
   "by_year": [
@@ -910,41 +1501,65 @@
    "case": "Base case",
    "answer": "mill",
    "stay": 1061502.1415367527,
-   "mill": 22943.420127453945,
+   "mill": 159887.94317284235,
    "divert": 1306319.7586839334,
-   "flip_tonnes": 54.60786905109046
+   "flip_tonnes": 62.04446667678315
   },
   {
    "case": "Carbon price EUR 40",
    "answer": "mill",
    "stay": 515793.0716893841,
-   "mill": 64607.02293585369,
+   "mill": 131149.55114060998,
    "divert": 1306319.7586839334,
-   "flip_tonnes": 112.38299450714415
+   "flip_tonnes": 127.68751242081971
   },
   {
    "case": "Carbon price EUR 120",
    "answer": "mill",
    "stay": 1547379.2150681522,
-   "mill": -14152.150614996499,
+   "mill": 185475.43399927233,
    "divert": 1306319.7586839334,
-   "flip_tonnes": 37.46099816904805
+   "flip_tonnes": 42.56250414027324
   },
   {
    "case": "Carbon price EUR 150",
-   "answer": "mill",
+   "answer": "green",
    "stay": 1934224.018835191,
-   "mill": -43686.840696565334,
+   "mill": 205847.64007127073,
    "divert": 1306319.7586839334,
-   "flip_tonnes": 29.96879853523844
+   "flip_tonnes": 34.05000331221859
   },
   {
    "case": "COM(2026) 616 slower phase-out",
    "answer": "mill",
    "stay": 1061502.1415367527,
-   "mill": 20336.464142133013,
+   "mill": 157280.98718752142,
    "divert": 1306319.7586839334,
-   "flip_tonnes": 54.48355343589124
+   "flip_tonnes": 61.88403625804917
+  },
+  {
+   "case": "Cleanest plant in the schedule (2.46)",
+   "answer": "mill",
+   "stay": 1061502.1415367527,
+   "mill": -18735.347755925155,
+   "divert": 1306319.7586839334,
+   "flip_tonnes": 52.68594506668524
+  },
+  {
+   "case": "Dirtiest plant in the schedule (3.31)",
+   "answer": "mill",
+   "stay": 1061502.1415367527,
+   "mill": 234314.31439316217,
+   "divert": 1306319.7586839334,
+   "flip_tonnes": 67.0035208843384
+  },
+  {
+   "case": "Forging outside the boundary (own plant 0)",
+   "answer": "mill",
+   "stay": 1061502.1415367527,
+   "mill": 37244.44964748068,
+   "divert": 1306319.7586839334,
+   "flip_tonnes": 55.30004958877854
   },
   {
    "case": "Verified rod at 3.5 tCO2e/t",
@@ -974,97 +1589,97 @@
    "case": "Verification costs three times more",
    "answer": "mill",
    "stay": 1061502.1415367527,
-   "mill": 230916.6395500115,
+   "mill": 367861.16259539995,
    "divert": 1306319.7586839334,
-   "flip_tonnes": 163.8236071532714
+   "flip_tonnes": 186.13340003034946
   },
   {
    "case": "Own process twice as dirty",
    "answer": "mill",
    "stay": 1061502.1415367527,
-   "mill": 145586.91365281562,
+   "mill": 282531.43669820414,
    "divert": 1306319.7586839334,
-   "flip_tonnes": 61.17448123623222
+   "flip_tonnes": 70.66249386990764
   },
   {
    "case": "Yield worse: 1.20 t steel per t bolts",
    "answer": "mill",
    "stay": 1061502.1415367527,
-   "mill": 81093.33238883273,
+   "mill": 232785.72714680128,
    "divert": 1306319.7586839334,
-   "flip_tonnes": 57.53617614172939
+   "flip_tonnes": 66.89371023203161
   },
   {
    "case": "Discount rate 20%",
    "answer": "mill",
    "stay": 875938.7432959361,
-   "mill": 19619.05880956876,
+   "mill": 132955.00701515866,
    "divert": 1081116.5369576027,
-   "flip_tonnes": 54.79309746250838
+   "flip_tonnes": 62.2836902166447
   },
   {
    "case": "First verified year slips to 2029",
    "answer": "mill",
    "stay": 890856.2350208224,
-   "mill": 14148.1515810213,
+   "mill": 127488.63949715653,
    "divert": 1081159.8414538484,
-   "flip_tonnes": 53.63470807228588
+   "flip_tonnes": 60.79124575977246
   },
   {
    "case": "Rival is Viet Nam",
    "answer": "mill",
    "stay": 1046352.9241168783,
-   "mill": 7794.202707579871,
+   "mill": 144738.72575296828,
    "divert": 1306319.7586839334,
-   "flip_tonnes": 54.60786905109046
+   "flip_tonnes": 62.04446667678315
   },
   {
    "case": "Rival is South Korea",
    "answer": "mill",
    "stay": 791282.3796520231,
-   "mill": -247276.34175727546,
+   "mill": -110331.81871188701,
    "divert": 1306319.7586839334,
-   "flip_tonnes": 54.60786905109046
+   "flip_tonnes": 62.04446667678315
   },
   {
    "case": "Rival is T\u00fcrkiye",
    "answer": "mill",
    "stay": 102169.14073868506,
-   "mill": -936389.5806706134,
+   "mill": -799445.057625225,
    "divert": 1306319.7586839334,
-   "flip_tonnes": 54.60786905109046
+   "flip_tonnes": 62.04446667678315
   },
   {
    "case": "Rival is China",
    "answer": "mill",
    "stay": -230761.3351166852,
-   "mill": -1269320.0565259836,
+   "mill": -1132375.5334805953,
    "divert": 1306319.7586839334,
-   "flip_tonnes": 54.60786905109046
+   "flip_tonnes": 62.04446667678315
   },
   {
    "case": "50 t per year exporter",
    "answer": "stay",
    "stay": 88458.51179472936,
-   "mill": 97233.01057929339,
+   "mill": 108645.05416640907,
    "divert": 108859.97989032778,
-   "flip_tonnes": 54.60786905109046
+   "flip_tonnes": 62.04446667678315
   },
   {
    "case": "100 t per year exporter",
    "answer": "mill",
    "stay": 176917.02358945872,
-   "mill": 90479.41144730797,
+   "mill": 113303.4986215394,
    "divert": 217719.95978065557,
-   "flip_tonnes": 54.60786905109046
+   "flip_tonnes": 62.04446667678315
   },
   {
    "case": "5,000 t per year exporter",
    "answer": "mill",
    "stay": 8845851.179472936,
-   "mill": -571373.3034872615,
+   "mill": 569831.0552243086,
    "divert": 10885997.989032775,
-   "flip_tonnes": 54.60786905109046
+   "flip_tonnes": 62.04446667678315
   }
  ],
  "ablations": {
@@ -1072,9 +1687,9 @@
   "without_free_allocation": 565.0444799999999,
   "without_mark_up": 364.20014399999997,
   "if_india_had_taiwan_default": 160.73803199999995,
-  "mill_eur_t": 150.07561906399997,
-  "green_gap_without_route_benchmark": 142.688,
-  "green_gap_actual": 32.72014199999996
+  "mill_eur_t": 191.09841906399996,
+  "green_gap_without_route_benchmark": 183.71079999999998,
+  "green_gap_actual": 73.74294199999997
  },
  "trade": {
   "last_month": "2026-08",
