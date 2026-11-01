@@ -5,108 +5,147 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CBAM Case Evidence</title>
 <meta name="description" content="The evidence behind the CBAM case: outside checks, Indian plant data, product exposure, trade data and what people in the trade have said.">
+<meta name="theme-color" content="#000000">
+<script>document.documentElement.classList.add("js")</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=9">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=10">
 </head>
 <body data-page="evidence">
 <a class="skip" href="#checks">Skip to the first exhibit</a>
-<header class="bar">
-  <a class="brand" href="index.html">CBAM Exposure Case</a>
-  <nav aria-label="Pages">
-    <a href="index.html">The case</a>
-    <a href="learn.html">How CBAM works</a>
-    <a href="tool.html">Decision tool</a>
-    <a href="evidence.html" aria-current="page">Evidence</a>
-    <a href="method.html">How I worked</a>
-    <a href="sources.html">Sources</a>
-    <a href="https://github.com/Vedantk910/cbam-exposure-case">Code</a>
-    <button id="theme" type="button">Dark</button>
-  </nav>
+<header class="nav">
+  <div class="nav-in">
+    <a class="brand" href="index.html">CBAM Exposure Case</a>
+    <button class="menu-btn" id="menu" type="button" aria-expanded="false" aria-controls="links">Menu</button>
+    <nav id="links" aria-label="Pages">
+      <a href="index.html">The case</a>
+      <a href="learn.html">How CBAM works</a>
+      <a href="evidence.html" aria-current="page">Evidence</a>
+      <a href="method.html">How I worked</a>
+      <a href="sources.html">Sources</a>
+      <a href="https://github.com/Vedantk910/cbam-exposure-case">Code</a>
+      <a class="pill" href="tool.html">Open the tool</a>
+    </nav>
+  </div>
 </header>
 
 <main>
 <p class="status" id="status" role="status">Loading the figures.</p>
 
-<section class="page-head">
-  <h1>The evidence</h1>
-  <p class="lede">Each heading states the finding, and the exhibit under it shows the numbers. Where the evidence is weak or runs against the case, the text says so.</p>
+<section class="chapter dark page-head center">
+  <div class="wrap narrow">
+    <h1 class="reveal">The evidence.</h1>
+    <p class="intro reveal" style="--d:1">Each heading states a finding, and the exhibit under it shows the numbers. Where the evidence is weak or runs against the case, the text says so.</p>
+  </div>
 </section>
 
-<article class="ex" id="checks">
-  <h2>Practitioners publish the same arithmetic</h2>
-  <p class="note">Default-route cost per tonne of fasteners in 2026. The European Fastener Distributor Association's March 2026 guide prices at €80. The Crowe UK interview gives rough figures at €90.</p>
-  <div class="scrollx" tabindex="0" role="region" aria-label="Published figures against the model"><table class="plain" id="checkTable"></table></div>
-  <p class="so">Seven EFDA examples match to within 5 cents, and Crowe's rough figures fall within 10%. The Indian line needs a closer look. EFDA applies the carbon-steel benchmark of 1.364 to CN 7318 15 62, while the Commission's benchmark file describes that line as stainless and gives 1.154. EFDA uses 1.154 on a comparable Chinese stainless line. This case uses carbon-steel bolts throughout, so the base numbers do not depend on the answer, but I would raise it with EFDA.</p>
-</article>
+<section class="chapter" id="checks">
+  <div class="wrap">
+    <div class="ex-head">
+      <h2 class="sm reveal">Practitioners publish the same arithmetic.</h2>
+      <p class="note reveal">Default-route cost per tonne of fasteners in 2026. The European Fastener Distributor Association's March 2026 guide prices at €80. The Crowe UK interview gives rough figures at €90.</p>
+    </div>
+    <div class="card scrollx reveal" tabindex="0" role="region" aria-label="Published figures against the model"><table class="plain" id="checkTable"></table></div>
+    <p class="so reveal">Seven EFDA examples match to within 5 cents, and Crowe's rough figures fall within 10%. The Indian line needs a closer look. EFDA applies the carbon-steel benchmark of 1.364 to CN 7318 15 62, while the Commission's benchmark file describes that line as stainless and gives 1.154. EFDA uses 1.154 on a comparable Chinese stainless line. This case uses carbon-steel bolts throughout, so the base numbers do not depend on the answer, but I would raise it with EFDA.</p>
+  </div>
+</section>
 
-<article class="ex" id="mills">
-  <h2>Every plant in India's draft schedule sits below the point where low-carbon rod takes over</h2>
-  <p class="note">FY 2023-24 baselines from India's draft carbon market schedule, plus 0.1 for rolling into rod, tCO₂e per tonne. The left line marks where low-carbon rod beats verified rod. The right line is the marked-up default from 2028.</p>
-  <div class="scrollx" tabindex="0" role="region" aria-label="Plant intensities"><table class="plain mills" id="millTable"></table></div>
-  <p class="so">This replaced my first estimate of 2.6, which turned out to be too kind: the median plant is <span data-v="millMedian"></span>. The base case now uses <span data-v="sMill"></span>, and the hit from verified rod rose as a result. These are draft figures for crude steel, read from a consultancy's summary, and they are not verified CBAM values. Small re-rolling mills are missing, and many Indian fastener makers may buy from them.</p>
-</article>
+<section class="chapter alt" id="mills">
+  <div class="wrap">
+    <div class="ex-head">
+      <h2 class="sm reveal">Every plant in India's draft schedule sits below the point where low-carbon rod takes over.</h2>
+      <p class="note reveal">FY 2023-24 baselines from India's draft carbon market schedule, plus 0.1 for rolling into rod, tCO₂e per tonne. The left line marks where low-carbon rod beats verified rod. The right line is the marked-up default from 2028.</p>
+    </div>
+    <div class="card scrollx reveal" tabindex="0" role="region" aria-label="Plant intensities"><table class="plain mills" id="millTable"></table></div>
+    <p class="so reveal">This replaced my first estimate of 2.6, which turned out to be too kind: the median plant is <span data-v="millMedian"></span>. The base case now uses <span data-v="sMill"></span>, and the hit from verified rod rose as a result. These are draft figures for crude steel, read from a consultancy's summary, and they are not verified CBAM values. Small re-rolling mills are missing, and many Indian fastener makers may buy from them.</p>
+  </div>
+</section>
 
-<article class="ex">
-  <h2>Commodity grades cannot carry the default. Downstream goods can.</h2>
-  <p class="note">Default-route CBAM cost as a share of the 2025 EU import price, India's largest lines, at a flat <span data-v="priceBase"></span>/t. Darker means heavier.</p>
-  <div class="scrollx" tabindex="0" role="region" aria-label="Cost as a share of value by product and year"><table class="heat" id="heat"></table></div>
-  <p class="so">The exposed part of Indian steel is the low-value end. Flat goods are also inside the EU's 50% out-of-quota regime from July 2026, so CBAM is not their only problem.</p>
-</article>
+<section class="chapter">
+  <div class="wrap">
+    <div class="ex-head">
+      <h2 class="sm reveal">Commodity grades cannot carry the default. Downstream goods can.</h2>
+      <p class="note reveal">Default-route CBAM cost as a share of the 2025 EU import price, India's largest lines, at a flat <span data-v="priceBase"></span>/t. Darker means heavier.</p>
+    </div>
+    <div class="card scrollx reveal" tabindex="0" role="region" aria-label="Cost as a share of value by product and year"><table class="heat" id="heat"></table></div>
+    <p class="so reveal">The exposed part of Indian steel is the low-value end. Flat goods are also inside the EU's 50% out-of-quota regime from July 2026, so CBAM is not their only problem.</p>
+  </div>
+</section>
 
-<article class="ex">
-  <h2>On commodity flats, CBAM changes who an EU buyer picks</h2>
-  <p class="note">India's place among origins, cheapest first, by 2025 import price and again with the 2026 default-route cost added.</p>
-  <div class="scrollx" tabindex="0" role="region" aria-label="India's rank before and after CBAM"><table class="plain" id="rankTable"></table></div>
-  <p class="so">On plate India is <span data-v="koreaBefore"></span> a tonne cheaper than South Korea before CBAM and <span data-v="koreaAfter"></span> dearer after it. Unit values mix grades, so treat these as a guide. A buyer's real quotes would settle it.</p>
-</article>
+<section class="chapter alt">
+  <div class="wrap">
+    <div class="ex-head">
+      <h2 class="sm reveal">On commodity flats, CBAM changes who an EU buyer picks.</h2>
+      <p class="note reveal">India's place among origins, cheapest first, by 2025 import price and again with the 2026 default-route cost added.</p>
+    </div>
+    <div class="card scrollx reveal" tabindex="0" role="region" aria-label="India's rank before and after CBAM"><table class="plain" id="rankTable"></table></div>
+    <p class="so reveal">On plate India is <span data-v="koreaBefore"></span> a tonne cheaper than South Korea before CBAM and <span data-v="koreaAfter"></span> dearer after it. Unit values mix grades, so treat these as a guide. A buyer's real quotes would settle it.</p>
+  </div>
+</section>
 
-<article class="ex">
-  <h2>The gap to the rival sticks to the exporter</h2>
-  <p class="note">Default-route cost for a tonne of bolts in 2027, EUR. The number beside each origin is its default value. Origins under 2,000 tonnes are left out.</p>
-  <div id="originBars" class="hbars"></div>
-  <p class="so">Taiwan is the largest supplier to the EU after China, and its default is less than half of India's. Verified rod at <span data-v="sMill"></span> puts India at <span data-v="millCost"></span>/t, against Taiwan's <span data-v="twCost"></span>/t on its default.</p>
-</article>
+<section class="chapter">
+  <div class="wrap">
+    <div class="ex-head">
+      <h2 class="sm reveal">The gap to the rival sticks to the exporter.</h2>
+      <p class="note reveal">Default-route cost for a tonne of bolts in 2027, EUR. The number beside each origin is its default value. Origins under 2,000 tonnes are left out.</p>
+    </div>
+    <div class="card reveal"><div id="originBars" class="hbars grow"></div></div>
+    <p class="so reveal">Taiwan is the largest supplier to the EU after China, and its default is less than half of India's. Verified rod at <span data-v="sMill"></span> puts India at <span data-v="millCost"></span>/t, against Taiwan's <span data-v="twCost"></span>/t on its default.</p>
+  </div>
+</section>
 
-<article class="ex">
-  <h2>Until 2030 the 2.5% reading misses most of the sector's bill</h2>
-  <p class="note">India's CBAM-scope exports to the EU at 2025 volumes on default values, EUR million a year.</p>
-  <div class="legend" id="sectorLegend"></div>
-  <div class="chart" id="sectorChart"></div>
-  <p class="so">The 2026 bill is <span data-v="sectorPct"></span> of the value of that trade. Two outside estimates come in lower: FEPS-NIPFP at 16% of 2022 unit value, and Sentra.world at 10 to 20% of product cost. Neither was an input, and the FEPS study predates the published default values. Asia Research and Engagement's summary puts sector-wide cost at €3 to €4 a tonne in 2026, far below the EFDA and CO2 AI figures. I have only read that summary, which does not show the method.</p>
-</article>
+<section class="chapter dark">
+  <div class="wrap">
+    <div class="ex-head">
+      <h2 class="sm reveal">Until 2030 the 2.5% reading misses most of the sector's bill.</h2>
+      <p class="note reveal">India's CBAM-scope exports to the EU at 2025 volumes on default values, EUR million a year.</p>
+    </div>
+    <div class="card reveal"><div class="legend" id="sectorLegend" style="margin-top:0"></div><div class="chart" id="sectorChart"></div></div>
+    <p class="so reveal">The 2026 bill is <span data-v="sectorPct"></span> of the value of that trade. Two outside estimates come in lower: FEPS-NIPFP at 16% of 2022 unit value, and Sentra.world at 10 to 20% of product cost. Neither was an input, and the FEPS study predates the published default values. Asia Research and Engagement's summary puts sector-wide cost at €3 to €4 a tonne in 2026, far below the EFDA and CO2 AI figures. I have only read that summary, which does not show the method.</p>
+  </div>
+</section>
 
-<article class="ex">
-  <h2>Leaving works for one firm and fails for the sector</h2>
-  <p class="note">India's bolt and screw exports by destination in 2025, UN Comtrade.</p>
-  <div class="scrollx" tabindex="0" role="region" aria-label="Exports by destination"><table class="plain" id="markets"></table></div>
-  <p class="so">One firm could sell elsewhere at about <span data-v="divertLoss"></span>/t less. The EU takes <span data-v="euShare"></span> of tonnes, though, and the US carries a Section 232 duty reported at 25 to 50%. The UK starts its own CBAM in January 2027 with no carve-out for India.</p>
-</article>
+<section class="chapter alt">
+  <div class="wrap">
+    <div class="ex-head">
+      <h2 class="sm reveal">Leaving works for one firm and fails for the sector.</h2>
+      <p class="note reveal">India's bolt and screw exports by destination in 2025, UN Comtrade.</p>
+    </div>
+    <div class="card scrollx reveal" tabindex="0" role="region" aria-label="Exports by destination"><table class="plain" id="markets"></table></div>
+    <p class="so reveal">One firm could sell elsewhere at about <span data-v="divertLoss"></span>/t less. The EU takes <span data-v="euShare"></span> of tonnes, though, and the US carries a Section 232 duty reported at 25 to 50%. The UK starts its own CBAM in January 2027 with no carve-out for India.</p>
+  </div>
+</section>
 
-<article class="ex">
-  <h2>Trade has not moved yet, and I am not claiming it has</h2>
-  <p class="note">EU imports, 14 origins by HS6 by month. Each dot compares high-burden and low-burden flows against the first half of 2023. Bars show a 95% interval.</p>
-  <div class="chart" id="eventChart"></div>
-  <p class="so">The average effect since January 2026 is not distinguishable from zero (<span data-v="beta"></span>, standard error <span data-v="betaSe"></span>). July and August dip, but that is two months and it coincides with the new steel quotas. A stricter version adding origin-by-month effects gives <span data-v="betaOm"></span> with a t-statistic of <span data-v="betaOmT"></span>, but its 2024 points already sit below zero, so I do not lean on it. Buyers have also not paid yet: certificates go on sale in February 2027.</p>
-</article>
+<section class="chapter">
+  <div class="wrap">
+    <div class="ex-head">
+      <h2 class="sm reveal">Trade has not moved yet, and I am not claiming it has.</h2>
+      <p class="note reveal">EU imports, 14 origins by HS6 by month. Each dot compares high-burden and low-burden flows against the first half of 2023. Bars show a 95% interval.</p>
+    </div>
+    <div class="card reveal"><div class="chart" id="eventChart"></div></div>
+    <p class="so reveal">The average effect since January 2026 is not distinguishable from zero (<span data-v="beta"></span>, standard error <span data-v="betaSe"></span>). July and August dip, but that is two months and it coincides with the new steel quotas. A stricter version adding origin-by-month effects gives <span data-v="betaOm"></span> with a t-statistic of <span data-v="betaOmT"></span>, but its 2024 points already sit below zero, so I do not lean on it. Buyers have also not paid yet: certificates go on sale in February 2027.</p>
+  </div>
+</section>
 
-<article class="ex">
-  <h2>What people in the trade have said</h2>
-  <p class="note">Paraphrased from public reporting. I have spoken to none of these people.</p>
-  <dl class="voices">
-    <div><dt>European Fastener Distributor Association, March 2026</dt><dd>Importers will almost certainly be on default values for 2026, because a small pool of verifiers cannot visit thousands of plants in nine months. The association calls the defaults absurdly high and is lobbying to change them. <a href="https://www.nfda-fastener.org/assets/docs/EFDA-CBAMcostscalculationin2026.pdf">Guide</a></dd></div>
-    <div><dt>EFDA and carboneer webinar, reported April 2026</dt><dd>Hendrik Schuldt of carboneer told over 200 participants that verification fails if errors exceed 5% of reported emissions. EFDA expects some fastener costs to rise by 30 to 50% in the first year. <a href="https://fastenerandfixing.com/insight/european-fastener-distribution-in-difficult-cbam-waters/">Report</a></dd></div>
-    <div><dt>Jamie McLeod, Crowe UK, February 2026</dt><dd>Importers should set up a process now to get actual data from suppliers, since defaults become more punitive each year and every supplier needs verifying. <a href="https://fastenerandfixing.com/insight/the-new-reality-of-cbam/">Interview</a></dd></div>
-    <div><dt>Swaroop Banerjee, JSW, quoted by CO2 AI, October 2026</dt><dd>Indian mills are largely able to produce verified emissions data. That is the supply this case depends on, and it comes from a mill. <a href="https://co2ai.com/insights/cbam-and-indian-steel-the-market-is-already-deciding-winners-and-losers">Article</a></dd></div>
-    <div><dt>Unnamed executive, Business Standard, January 2026</dt><dd>A senior executive at a top Indian steelmaker said the company had secured EU-recognised plant-level verification. I could only read a search summary of this report, because the page blocked access.</dd></div>
-  </dl>
-</article>
+<section class="chapter alt">
+  <div class="wrap narrow">
+    <h2 class="sm reveal">What people in the trade have said.</h2>
+    <p class="intro reveal">Paraphrased from public reporting. I have spoken to none of these people.</p>
+    <dl class="voices">
+      <div class="reveal"><dt>European Fastener Distributor Association, March 2026</dt><dd>Importers will almost certainly be on default values for 2026, because a small pool of verifiers cannot visit thousands of plants in nine months. The association calls the defaults absurdly high and is lobbying to change them. <a href="https://www.nfda-fastener.org/assets/docs/EFDA-CBAMcostscalculationin2026.pdf">Read the guide</a></dd></div>
+      <div class="reveal"><dt>EFDA and carboneer webinar, reported April 2026</dt><dd>Hendrik Schuldt of carboneer told over 200 participants that verification fails if errors exceed 5% of reported emissions. EFDA expects some fastener costs to rise by 30 to 50% in the first year. <a href="https://fastenerandfixing.com/insight/european-fastener-distribution-in-difficult-cbam-waters/">Read the report</a></dd></div>
+      <div class="reveal"><dt>Jamie McLeod, Crowe UK, February 2026</dt><dd>Importers should set up a process now to get actual data from suppliers, since defaults become more punitive each year and every supplier needs verifying. <a href="https://fastenerandfixing.com/insight/the-new-reality-of-cbam/">Read the interview</a></dd></div>
+      <div class="reveal"><dt>Swaroop Banerjee, JSW, quoted by CO2 AI, October 2026</dt><dd>Indian mills are largely able to produce verified emissions data. That is the supply this case depends on, and it comes from a mill. <a href="https://co2ai.com/insights/cbam-and-indian-steel-the-market-is-already-deciding-winners-and-losers">Read the article</a></dd></div>
+      <div class="reveal"><dt>Unnamed executive, Business Standard, January 2026</dt><dd>A senior executive at a top Indian steelmaker said the company had secured EU-recognised plant-level verification. I could only read a search summary of this report, because the page blocked access.</dd></div>
+    </dl>
+  </div>
+</section>
 </main>
 
-<footer><p>Vedant Konde. Estimates for study, not legal or compliance advice. Rules as of October 2026.</p></footer>
+<footer><div class="wrap"><span>Vedant Konde. Estimates for study, not legal or compliance advice. Rules as of October 2026.</span><span><a href="sources.html">Sources</a></span></div></footer>
 <div class="tip" id="tip" role="status" hidden></div>
-<script src="engine.js?v=9"></script>
-<script src="app.js?v=9"></script>
+<script src="engine.js?v=10"></script>
+<script src="app.js?v=10"></script>
 </body>
 </html>

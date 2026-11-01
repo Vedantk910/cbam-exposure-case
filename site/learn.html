@@ -5,119 +5,136 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>How CBAM Works</title>
 <meta name="description" content="The EU carbon border charge explained: one tonne worked through step by step, who does what, the dates and the terms.">
+<meta name="theme-color" content="#000000">
+<script>document.documentElement.classList.add("js")</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=9">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=10">
 </head>
 <body data-page="learn">
 <a class="skip" href="#what">Skip to the content</a>
-<header class="bar">
-  <a class="brand" href="index.html">CBAM Exposure Case</a>
-  <nav aria-label="Pages">
-    <a href="index.html">The case</a>
-    <a href="learn.html" aria-current="page">How CBAM works</a>
-    <a href="tool.html">Decision tool</a>
-    <a href="evidence.html">Evidence</a>
-    <a href="method.html">How I worked</a>
-    <a href="sources.html">Sources</a>
-    <a href="https://github.com/Vedantk910/cbam-exposure-case">Code</a>
-    <button id="theme" type="button">Dark</button>
-  </nav>
+<header class="nav">
+  <div class="nav-in">
+    <a class="brand" href="index.html">CBAM Exposure Case</a>
+    <button class="menu-btn" id="menu" type="button" aria-expanded="false" aria-controls="links">Menu</button>
+    <nav id="links" aria-label="Pages">
+      <a href="index.html">The case</a>
+      <a href="learn.html" aria-current="page">How CBAM works</a>
+      <a href="evidence.html">Evidence</a>
+      <a href="method.html">How I worked</a>
+      <a href="sources.html">Sources</a>
+      <a href="https://github.com/Vedantk910/cbam-exposure-case">Code</a>
+      <a class="pill" href="tool.html">Open the tool</a>
+    </nav>
+  </div>
 </header>
 
 <main>
 <p class="status" id="status" role="status">Loading the figures.</p>
 
-<section id="what" class="page-head">
-  <h1>How CBAM works</h1>
-  <p class="lede">CBAM, the Carbon Border Adjustment Mechanism, makes EU importers pay for the carbon in certain goods, at about the price EU producers pay under the EU's emissions trading system. It covers iron and steel, aluminium, cement, fertilisers, hydrogen and electricity.</p>
-  <p class="wide">Importers only reported emissions from October 2023 to December 2025. Money became due for goods imported from 1 January 2026, and the importer pays, so an Indian exporter never receives a CBAM bill. It feels the charge in the price a buyer will accept, and in the data the buyer asks for.</p>
-</section>
-
-<section class="sec">
-  <h2>One tonne, step by step</h2>
-  <p class="wide">Pick a product, an origin and a year. The table walks through the charge exactly as the importer would, on default values.</p>
-  <div class="pick">
-    <div class="ctl"><label for="l_product">Product</label><select id="l_product"></select></div>
-    <div class="ctl"><label for="l_origin">Origin</label><select id="l_origin"></select></div>
-    <div class="ctl"><label for="l_year">Import year <output id="l_yearOut"></output></label><input id="l_year" type="range" min="0" max="8" step="1" value="0"></div>
-    <div class="ctl"><label for="l_price">Certificate price, EUR <output id="l_priceOut"></output></label><input id="l_price" type="range" min="40" max="160" step="1"></div>
-  </div>
-  <div class="scrollx" tabindex="0" role="region" aria-label="Worked steps"><table class="plain steps-table" id="l_steps"></table></div>
-  <p class="so" id="l_note"></p>
-</section>
-
-<section class="sec">
-  <h2>Who does what</h2>
-  <div class="scrollx" tabindex="0" role="region" aria-label="Roles"><table class="plain">
-    <thead><tr><th>Who</th><th>Their job under CBAM</th><th>What they want</th></tr></thead>
-    <tbody>
-      <tr><td>EU importer</td><td>Becomes an authorised declarant, files the yearly declaration and surrenders certificates.</td><td>The lowest landed cost, and data that will stand up to an audit.</td></tr>
-      <tr><td>Exporter or fastener maker</td><td>Pays no CBAM directly. Supplies emissions data and any verification report to the buyer.</td><td>To keep the order without giving up margin.</td></tr>
-      <tr><td>Steel mill</td><td>Holds the emissions data that decides most of the result for downstream goods.</td><td>To keep its large customers. A small exporter may get little attention.</td></tr>
-      <tr><td>Verifier</td><td>Must be accredited by an EU body. Checks reported emissions, and the first visit must be physical.</td><td>Capacity is short, according to the European fastener distributors.</td></tr>
-      <tr><td>National authority in the EU</td><td>Authorises declarants, reviews declarations and can impose penalties.</td><td>Correct declarations.</td></tr>
-      <tr><td>European Commission</td><td>Sets default values and benchmarks, and publishes certificate prices.</td><td>Carbon leakage kept down and EU producers treated alike with importers.</td></tr>
-    </tbody>
-  </table></div>
-</section>
-
-<section class="sec">
-  <h2>The dates that matter</h2>
-  <ol class="timeline">
-    <li><time>Oct 2023</time><span>Importers start quarterly reporting. Nothing is paid yet.</span></li>
-    <li><time>Oct 2025</time><span>A simplification law sets a 50-tonne yearly threshold per importer.</span></li>
-    <li><time>Jan 2026</time><span>The financial stage begins. Imports from this date carry a CBAM cost.</span></li>
-    <li><time>Jan 2026</time><span>India and the EU conclude a trade deal. It gives no CBAM exemption.</span></li>
-    <li><time>Jul 2026</time><span>EU steel quotas replace the safeguard, with a 50% duty outside quota.</span></li>
-    <li><time>Sep 2026</time><span>The Commission expected the first verifier accreditations around now.</span></li>
-    <li class="next"><time>Jan 2027</time><span>The UK starts its own CBAM. Verification work on 2026 data can begin.</span></li>
-    <li class="next"><time>Feb 2027</time><span>Certificates go on sale, for 2026 and 2027 imports.</span></li>
-    <li class="next"><time>Sep 2027</time><span>First annual declaration and surrender, covering 2026 imports.</span></li>
-    <li class="next"><time>2028</time><span>The default mark-up reaches its top rate of 30%. Operators can share verified data through the registry.</span></li>
-    <li class="next"><time>2034</time><span>Free allocation for CBAM sectors reaches zero under current law. A 2026 proposal would slow this.</span></li>
-  </ol>
-</section>
-
-<section class="sec">
-  <h2>Six things people get wrong</h2>
-  <div class="qa">
-    <h3>Only 2.5% of the bill is due in 2026</h3>
-    <p>That holds at the EU benchmark. Free allocation is subtracted as a fixed amount per tonne, so any emissions above the benchmark are charged in full. The Commission's Q&amp;A sets out the sum at 3.7 and 3.8, and the fastener distributors' guide prints the same formula.</p>
-    <h3>The exporter pays</h3>
-    <p>The authorised declarant in the EU pays. The exporter's exposure is commercial: a buyer compares landed costs across origins, so the extra cost above a rival comes out of the exporter's price.</p>
-    <h3>India's carbon market will cancel it out</h3>
-    <p>CBAM allows a deduction for a carbon price actually paid. As of October 2026 no third country's price had been recognised, and India's market had recorded no certificate trade.</p>
-    <h3>Electricity bills matter for steel</h3>
-    <p>For iron, steel and aluminium goods the definitive period counts direct emissions and precursors only. Indirect emissions from electricity are left out.</p>
-    <h3>Old stock escapes</h3>
-    <p>Goods made in 2025 and imported in 2026 still fall under CBAM. The fastener distributors note one useful detail: goods imported in 2027 can use the lower 2026 default if the buyer can show they were made before 2027.</p>
-    <h3>The rules on fasteners are settled</h3>
-    <p>They are not. The fastener distributors say the Commission confirmed that making the fastener itself sits outside the boundary, and that wire preparation remains uncertain. The implementing regulation's wording on forging reads differently to me. This case keeps the plant's emissions in, which is the cautious choice, and the tool lets you set them to zero.</p>
+<section class="chapter page-head center dark" id="what">
+  <div class="wrap narrow">
+    <h1 class="reveal">How CBAM works.</h1>
+    <p class="intro reveal" style="--d:1">CBAM, the Carbon Border Adjustment Mechanism, makes EU importers pay for the carbon in certain goods, at about the price EU producers pay under the EU's emissions trading system.</p>
   </div>
 </section>
 
-<section class="sec">
-  <h2>Terms</h2>
-  <dl class="terms">
-    <div><dt>Embedded emissions</dt><dd>The CO₂e released making a good, including the steel or aluminium that went into it.</dd></div>
-    <div><dt>Default value</dt><dd>A Commission figure per product and country, used when no verified data exists.</dd></div>
-    <div><dt>Mark-up</dt><dd>A surcharge on default values: 10% in 2026, 20% in 2027, 30% from 2028.</dd></div>
-    <div><dt>Benchmark</dt><dd>A per-tonne emissions figure drawn from the EU's free allocation rules. Column A covers one process step and Column B includes the precursors.</dd></div>
-    <div><dt>CBAM factor</dt><dd>The share of free allocation EU producers still keep: 97.5% in 2026, falling to zero in 2034.</dd></div>
-    <div><dt>Free allocation adjustment</dt><dd>The amount taken off the bill: CBAM factor times benchmark, per tonne.</dd></div>
-    <div><dt>Certificate</dt><dd>One tonne of CO₂e, priced in line with the EU carbon market.</dd></div>
-    <div><dt>Precursor</dt><dd>A CBAM good used to make another, such as wire rod used to make bolts.</dd></div>
-    <div><dt>Verifier</dt><dd>An EU-accredited auditor. Actual emissions count only after verification.</dd></div>
-    <div><dt>CN code</dt><dd>The EU's product code. CN 7318 15 covers threaded screws and bolts.</dd></div>
-  </dl>
+<section class="chapter">
+  <div class="wrap narrow">
+    <p class="body reveal">It covers iron and steel, aluminium, cement, fertilisers, hydrogen and electricity. Importers only reported emissions from October 2023 to December 2025. Money became due for goods imported from 1 January 2026, and the importer pays, so an Indian exporter never receives a CBAM bill. It feels the charge in the price a buyer will accept, and in the data the buyer asks for.</p>
+  </div>
+</section>
+
+<section class="chapter alt">
+  <div class="wrap">
+    <h2 class="reveal">One tonne, step by step.</h2>
+    <p class="intro reveal">Pick a product, an origin and a year. The table runs the sum as the importer would, on default values.</p>
+    <div class="card reveal">
+      <div class="pick" style="margin-top:0">
+        <div class="ctl"><label for="l_product">Product</label><select id="l_product"></select></div>
+        <div class="ctl"><label for="l_origin">Origin</label><select id="l_origin"></select></div>
+        <div class="ctl"><label for="l_year">Import year <output id="l_yearOut"></output></label><input id="l_year" type="range" min="0" max="8" step="1" value="0"></div>
+        <div class="ctl"><label for="l_price">Certificate price, EUR <output id="l_priceOut"></output></label><input id="l_price" type="range" min="40" max="160" step="1"></div>
+      </div>
+      <div class="scrollx" tabindex="0" role="region" aria-label="Worked steps"><table class="plain steps-table" id="l_steps"></table></div>
+      <p class="so" id="l_note"></p>
+    </div>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="wrap">
+    <h2 class="reveal">Who does what.</h2>
+    <div class="scrollx gap reveal" tabindex="0" role="region" aria-label="Roles"><table class="plain">
+      <thead><tr><th>Who</th><th>Their job under CBAM</th><th>What they want</th></tr></thead>
+      <tbody>
+        <tr><td>EU importer</td><td>Becomes an authorised declarant, files the yearly declaration and surrenders certificates.</td><td>The lowest landed cost, and data that will stand up to an audit.</td></tr>
+        <tr><td>Exporter or fastener maker</td><td>Pays no CBAM directly. Supplies emissions data and any verification report to the buyer.</td><td>To keep the order without giving up margin.</td></tr>
+        <tr><td>Steel mill</td><td>Holds the emissions data that decides most of the result for downstream goods.</td><td>To keep its large customers. A small exporter may get little attention.</td></tr>
+        <tr><td>Verifier</td><td>Must be accredited by an EU body. Checks reported emissions, and the first visit must be physical.</td><td>Capacity is short, according to the European fastener distributors.</td></tr>
+        <tr><td>National authority in the EU</td><td>Authorises declarants, reviews declarations and can impose penalties.</td><td>Correct declarations.</td></tr>
+        <tr><td>European Commission</td><td>Sets default values and benchmarks, and publishes certificate prices.</td><td>Carbon leakage kept down and EU producers treated alike with importers.</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section class="chapter dark">
+  <div class="wrap">
+    <h2 class="reveal">The dates that matter.</h2>
+    <ol class="timeline gap" id="timeline">
+      <li><time>Oct 2023</time><span>Importers start quarterly reporting. Nothing is paid yet.</span></li>
+      <li><time>Oct 2025</time><span>A simplification law sets a 50-tonne yearly threshold per importer.</span></li>
+      <li><time>Jan 2026</time><span>The financial stage begins. Imports from this date carry a CBAM cost.</span></li>
+      <li><time>Jan 2026</time><span>India and the EU conclude a trade deal. It gives no CBAM exemption.</span></li>
+      <li><time>Jul 2026</time><span>EU steel quotas replace the safeguard, with a 50% duty outside quota.</span></li>
+      <li><time>Sep 2026</time><span>The Commission expected the first verifier accreditations around now.</span></li>
+      <li class="next"><time>Jan 2027</time><span>The UK starts its own CBAM. Verification work on 2026 data can begin.</span></li>
+      <li class="next"><time>Feb 2027</time><span>Certificates go on sale, for 2026 and 2027 imports.</span></li>
+      <li class="next"><time>Sep 2027</time><span>First annual declaration and surrender, covering 2026 imports.</span></li>
+      <li class="next"><time>2028</time><span>The default mark-up reaches its top rate of 30%. Operators can share verified data through the registry.</span></li>
+      <li class="next"><time>2034</time><span>Free allocation for CBAM sectors reaches zero under current law. A 2026 proposal would slow this.</span></li>
+    </ol>
+  </div>
+</section>
+
+<section class="chapter alt">
+  <div class="wrap">
+    <h2 class="reveal">Six things people get wrong.</h2>
+    <div class="qa">
+      <div class="card reveal"><h3>Only 2.5% of the bill is due in 2026</h3><p>That holds at the EU benchmark. Free allocation is subtracted as a fixed amount per tonne, so any emissions above the benchmark are charged in full. The Commission's Q&amp;A sets out the sum at 3.7 and 3.8, and the fastener distributors' guide prints the same formula.</p></div>
+      <div class="card reveal" style="--d:1"><h3>The exporter pays</h3><p>The authorised declarant in the EU pays. The exporter's exposure is commercial: a buyer compares landed costs across origins, so the extra cost above a rival comes out of the exporter's price.</p></div>
+      <div class="card reveal"><h3>India's carbon market will cancel it out</h3><p>CBAM allows a deduction for a carbon price actually paid. As of October 2026 no third country's price had been recognised, and India's market had recorded no certificate trade.</p></div>
+      <div class="card reveal" style="--d:1"><h3>Electricity bills matter for steel</h3><p>For iron, steel and aluminium goods the definitive period counts direct emissions and precursors only. Indirect emissions from electricity are left out.</p></div>
+      <div class="card reveal"><h3>Old stock escapes</h3><p>Goods made in 2025 and imported in 2026 still fall under CBAM. The fastener distributors note one useful detail: goods imported in 2027 can use the lower 2026 default if the buyer can show they were made before 2027.</p></div>
+      <div class="card reveal" style="--d:1"><h3>The rules on fasteners are settled</h3><p>They are not. The fastener distributors say the Commission confirmed that making the fastener itself sits outside the boundary, and that wire preparation remains uncertain. This case keeps the plant's emissions in, which is the cautious choice, and the tool lets you set them to zero.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="wrap">
+    <h2 class="reveal">Terms.</h2>
+    <dl class="terms">
+      <div><dt>Embedded emissions</dt><dd>The CO₂e released making a good, including the steel or aluminium that went into it.</dd></div>
+      <div><dt>Default value</dt><dd>A Commission figure per product and country, used when no verified data exists.</dd></div>
+      <div><dt>Mark-up</dt><dd>A surcharge on default values: 10% in 2026, 20% in 2027, 30% from 2028.</dd></div>
+      <div><dt>Benchmark</dt><dd>A per-tonne emissions figure drawn from the EU's free allocation rules. Column A covers one process step and Column B includes the precursors.</dd></div>
+      <div><dt>CBAM factor</dt><dd>The share of free allocation EU producers still keep: 97.5% in 2026, falling to zero in 2034.</dd></div>
+      <div><dt>Free allocation adjustment</dt><dd>The amount taken off the bill: CBAM factor times benchmark, per tonne.</dd></div>
+      <div><dt>Certificate</dt><dd>One tonne of CO₂e, priced in line with the EU carbon market.</dd></div>
+      <div><dt>Precursor</dt><dd>A CBAM good used to make another, such as wire rod used to make bolts.</dd></div>
+      <div><dt>Verifier</dt><dd>An EU-accredited auditor. Actual emissions count only after verification.</dd></div>
+      <div><dt>CN code</dt><dd>The EU's product code. CN 7318 15 covers threaded screws and bolts.</dd></div>
+    </dl>
+  </div>
 </section>
 </main>
 
-<footer><p>Vedant Konde. Estimates for study, not legal or compliance advice. Rules as of October 2026.</p></footer>
+<footer><div class="wrap"><span>Vedant Konde. Estimates for study, not legal or compliance advice. Rules as of October 2026.</span><span><a href="sources.html">Sources</a></span></div></footer>
 <div class="tip" id="tip" role="status" hidden></div>
-<script src="engine.js?v=9"></script>
-<script src="app.js?v=9"></script>
+<script src="engine.js?v=10"></script>
+<script src="app.js?v=10"></script>
 </body>
 </html>

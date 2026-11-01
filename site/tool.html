@@ -5,41 +5,49 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CBAM Decision Tool</title>
 <meta name="description" content="Run the CBAM decision on your own numbers, see how each input drives the answer, and compare origins as an EU buyer.">
+<meta name="theme-color" content="#000000">
+<script>document.documentElement.classList.add("js")</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=9">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=10">
 </head>
 <body data-page="tool">
 <a class="skip" href="#exporter">Skip to the tool</a>
-<header class="bar">
-  <a class="brand" href="index.html">CBAM Exposure Case</a>
-  <nav aria-label="Pages">
-    <a href="index.html">The case</a>
-    <a href="learn.html">How CBAM works</a>
-    <a href="tool.html" aria-current="page">Decision tool</a>
-    <a href="evidence.html">Evidence</a>
-    <a href="method.html">How I worked</a>
-    <a href="sources.html">Sources</a>
-    <a href="https://github.com/Vedantk910/cbam-exposure-case">Code</a>
-    <button id="theme" type="button">Dark</button>
-  </nav>
+<header class="nav">
+  <div class="nav-in">
+    <a class="brand" href="index.html">CBAM Exposure Case</a>
+    <button class="menu-btn" id="menu" type="button" aria-expanded="false" aria-controls="links">Menu</button>
+    <nav id="links" aria-label="Pages">
+      <a href="index.html">The case</a>
+      <a href="learn.html">How CBAM works</a>
+      <a href="evidence.html">Evidence</a>
+      <a href="method.html">How I worked</a>
+      <a href="sources.html">Sources</a>
+      <a href="https://github.com/Vedantk910/cbam-exposure-case">Code</a>
+      <a class="pill" href="tool.html" aria-current="page">Open the tool</a>
+    </nav>
+  </div>
 </header>
 
 <main>
 <p class="status" id="status" role="status">Loading the figures.</p>
 
-<section class="page-head">
-  <h1>Decision tool</h1>
-  <p class="lede">Choose whose side you are on. Every number recalculates in your browser with the same formulas as the Python model, and a test fails the build if the two ever differ.</p>
-  <div class="tabs" role="tablist" aria-label="Choose a view">
-    <button role="tab" id="tab-exporter" aria-controls="exporter" aria-selected="true" type="button">I export to the EU</button>
-    <button role="tab" id="tab-buyer" aria-controls="buyer" aria-selected="false" type="button" tabindex="-1">I buy in the EU</button>
+<section class="chapter alt center page-head" style="padding-bottom:28px">
+  <div class="wrap narrow">
+    <h1 class="reveal">Decision tool.</h1>
+    <p class="intro reveal" style="--d:1">Every number recalculates in your browser with the same formulas as the Python model. A test fails the build if the two ever differ.</p>
+    <div class="segment reveal" style="--d:2" role="tablist" aria-label="Choose a view" id="segment" data-on="exporter">
+      <span class="thumb" aria-hidden="true"></span>
+      <button role="tab" id="tab-exporter" aria-controls="exporter" aria-selected="true" type="button">I export to the EU</button>
+      <button role="tab" id="tab-buyer" aria-controls="buyer" aria-selected="false" type="button" tabindex="-1">I buy in the EU</button>
+    </div>
   </div>
 </section>
 
-<section id="exporter" role="tabpanel" aria-labelledby="tab-exporter">
-  <div class="toolgrid">
+<div class="alt" style="background:#f5f5f7">
+<section id="exporter" role="tabpanel" aria-labelledby="tab-exporter" class="alt" style="padding-bottom:var(--pad)">
+  <div class="wrap toolgrid">
     <form class="controls" id="controls" autocomplete="off">
       <div class="ctl"><label for="c_product">Product</label><select id="c_product"></select></div>
       <div class="ctl"><label for="c_tonnes">Tonnes sold to the EU a year <output id="o_tonnes"></output></label><input id="c_tonnes" type="range" min="0" max="100" step="1"></div>
@@ -70,32 +78,35 @@
         <div><dt>Low-carbon rod wins if your mill is above</dt><dd id="f_mill"></dd></div>
         <div><dt>Or if 2034 carbon passes</dt><dd id="f_price"></dd></div>
       </dl>
-      <h3>Certificates per tonne of good</h3>
       <div class="legend" id="lineLegend"></div>
       <div class="chart" id="lineChart"></div>
     </div>
   </div>
 
-  <div class="sub">
-    <h2>How the answer is built</h2>
-    <p class="wide">This is the whole calculation for one position and one year, left to right. Select a box to see what it is, where it comes from, what it is built from and what it feeds. Boxes with a solid edge are inputs, and you can change them from the panel below the map.</p>
-    <div class="pick">
-      <div class="ctl"><label for="m_pos">Position</label><select id="m_pos"></select></div>
-      <div class="ctl"><label for="m_year">Year <output id="m_yearOut"></output></label><input id="m_year" type="range" min="1" max="8" step="1" value="1"></div>
+  <div class="wrap gap">
+    <div class="card dark reveal" style="background:#000;color:#f5f5f7;margin-top:clamp(48px,7vw,88px)">
+      <h2 class="sm" style="font-size:clamp(30px,4.2vw,52px);line-height:1.08">How the answer is built.</h2>
+      <p class="intro">The whole calculation for one position and one year, left to right. Select a box to see where it comes from and what it feeds. Outlined boxes are inputs, and you can change them from the panel under the map.</p>
+      <div class="pick">
+        <div class="ctl"><label for="m_pos">Position</label><select id="m_pos"></select></div>
+        <div class="ctl"><label for="m_year">Year <output id="m_yearOut"></output></label><input id="m_year" type="range" min="1" max="8" step="1" value="1"></div>
+      </div>
+      <div class="map" id="map"></div>
+      <div class="info" id="nodeInfo" aria-live="polite"></div>
     </div>
-    <div class="map" id="map"></div>
-    <div class="info" id="nodeInfo" aria-live="polite"></div>
   </div>
 
-  <div class="sub">
-    <h2>Which inputs matter most</h2>
-    <p class="wide">Each bar shows what verified rod is worth against staying on defaults as one input moves across a realistic range, with the rest held at your settings. The longest bars are the numbers to check first.</p>
-    <div id="swing" class="swing"></div>
+  <div class="wrap gap">
+    <div class="card reveal" style="margin-top:20px">
+      <h2 class="sm" style="font-size:clamp(30px,4.2vw,52px);line-height:1.08">Which inputs matter most.</h2>
+      <p class="intro">Each bar shows what verified rod is worth against staying on defaults as one input moves across a realistic range. The longest bars are the numbers to check first.</p>
+      <div id="swing" class="swing gap"></div>
+    </div>
   </div>
 </section>
 
-<section id="buyer" role="tabpanel" aria-labelledby="tab-buyer" hidden>
-  <div class="toolgrid">
+<section id="buyer" role="tabpanel" aria-labelledby="tab-buyer" class="alt" style="padding-bottom:var(--pad)" hidden>
+  <div class="wrap toolgrid">
     <form class="controls" autocomplete="off">
       <div class="ctl"><label for="b_product">Product</label><select id="b_product"></select></div>
       <div class="ctl"><label for="b_year">Import year <output id="b_yearOut"></output></label><input id="b_year" type="range" min="0" max="8" step="1" value="1"></div>
@@ -109,11 +120,12 @@
     </div>
   </div>
 </section>
+</div>
 </main>
 
-<footer><p>Vedant Konde. Estimates for study, not legal or compliance advice. Rules as of October 2026.</p></footer>
+<footer><div class="wrap"><span>Vedant Konde. Estimates for study, not legal or compliance advice. Rules as of October 2026.</span><span><a href="sources.html">Sources</a></span></div></footer>
 <div class="tip" id="tip" role="status" hidden></div>
-<script src="engine.js?v=9"></script>
-<script src="app.js?v=9"></script>
+<script src="engine.js?v=10"></script>
+<script src="app.js?v=10"></script>
 </body>
 </html>

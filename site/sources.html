@@ -5,48 +5,56 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CBAM Case Sources</title>
 <meta name="description" content="Every source behind the CBAM case, tagged by how far it can be trusted.">
+<meta name="theme-color" content="#000000">
+<script>document.documentElement.classList.add("js")</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=9">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=10">
 </head>
 <body data-page="sources">
 <a class="skip" href="#sourceList">Skip to the list</a>
-<header class="bar">
-  <a class="brand" href="index.html">CBAM Exposure Case</a>
-  <nav aria-label="Pages">
-    <a href="index.html">The case</a>
-    <a href="learn.html">How CBAM works</a>
-    <a href="tool.html">Decision tool</a>
-    <a href="evidence.html">Evidence</a>
-    <a href="method.html">How I worked</a>
-    <a href="sources.html" aria-current="page">Sources</a>
-    <a href="https://github.com/Vedantk910/cbam-exposure-case">Code</a>
-    <button id="theme" type="button">Dark</button>
-  </nav>
+<header class="nav">
+  <div class="nav-in">
+    <a class="brand" href="index.html">CBAM Exposure Case</a>
+    <button class="menu-btn" id="menu" type="button" aria-expanded="false" aria-controls="links">Menu</button>
+    <nav id="links" aria-label="Pages">
+      <a href="index.html">The case</a>
+      <a href="learn.html">How CBAM works</a>
+      <a href="evidence.html">Evidence</a>
+      <a href="method.html">How I worked</a>
+      <a href="sources.html" aria-current="page">Sources</a>
+      <a href="https://github.com/Vedantk910/cbam-exposure-case">Code</a>
+      <a class="pill" href="tool.html">Open the tool</a>
+    </nav>
+  </div>
 </header>
 
 <main>
 <p class="status" id="status" role="status">Loading the figures.</p>
 
-<section class="page-head">
-  <h1>Sources</h1>
-  <p class="lede">Primary means read from an EU document. Official data came from the publisher's own file. Secondary was reported by someone else and not checked against the legal text.</p>
-  <div class="filters" role="group" aria-label="Filter sources">
-    <button type="button" data-tag="" aria-pressed="true">All</button>
-    <button type="button" data-tag="PRIMARY" aria-pressed="false">Primary</button>
-    <button type="button" data-tag="OFFICIAL_DATA" aria-pressed="false">Official data</button>
-    <button type="button" data-tag="SECONDARY" aria-pressed="false">Secondary</button>
+<section class="chapter alt page-head center" style="padding-bottom:40px">
+  <div class="wrap narrow">
+    <h1 class="reveal">Sources.</h1>
+    <p class="intro reveal" style="--d:1">Primary means read from an EU document. Official data came from the publisher's own file. Secondary was reported by someone else and not checked against the legal text.</p>
+    <div class="filters reveal" style="--d:2" role="group" aria-label="Filter sources">
+      <button type="button" data-tag="" aria-pressed="true">All</button>
+      <button type="button" data-tag="PRIMARY" aria-pressed="false">Primary</button>
+      <button type="button" data-tag="OFFICIAL_DATA" aria-pressed="false">Official data</button>
+      <button type="button" data-tag="SECONDARY" aria-pressed="false">Secondary</button>
+    </div>
   </div>
 </section>
-<section class="sec">
-  <div class="scrollx" tabindex="0" role="region" aria-label="Sources"><table class="plain src" id="sourceList"></table></div>
+<section class="chapter alt" style="padding-top:0">
+  <div class="wrap">
+    <div class="card scrollx" style="margin-top:0" tabindex="0" role="region" aria-label="Sources"><table class="plain src" id="sourceList"></table></div>
+  </div>
 </section>
 </main>
 
-<footer><p>Vedant Konde. Estimates for study, not legal or compliance advice. Rules as of October 2026.</p></footer>
+<footer><div class="wrap"><span>Vedant Konde. Estimates for study, not legal or compliance advice. Rules as of October 2026.</span><span><a href="index.html">Back to the case</a></span></div></footer>
 <div class="tip" id="tip" role="status" hidden></div>
-<script src="engine.js?v=9"></script>
-<script src="app.js?v=9"></script>
+<script src="engine.js?v=10"></script>
+<script src="app.js?v=10"></script>
 </body>
 </html>

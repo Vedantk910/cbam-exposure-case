@@ -5,93 +5,158 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CBAM Exposure Case</title>
 <meta name="description" content="What an Indian steel exporter should do about the EU carbon border charge before 2034, with a working decision tool built on official EU data.">
+<meta name="theme-color" content="#000000">
+<script>document.documentElement.classList.add("js")</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=9">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=10">
 </head>
 <body data-page="case">
 <a class="skip" href="#answer">Skip to the answer</a>
-<header class="bar">
-  <a class="brand" href="index.html">CBAM Exposure Case</a>
-  <nav aria-label="Pages">
-    <a href="index.html" aria-current="page">The case</a>
-    <a href="learn.html">How CBAM works</a>
-    <a href="tool.html">Decision tool</a>
-    <a href="evidence.html">Evidence</a>
-    <a href="method.html">How I worked</a>
-    <a href="sources.html">Sources</a>
-    <a href="https://github.com/Vedantk910/cbam-exposure-case">Code</a>
-    <button id="theme" type="button">Dark</button>
-  </nav>
+<header class="nav">
+  <div class="nav-in">
+    <a class="brand" href="index.html">CBAM Exposure Case</a>
+    <button class="menu-btn" id="menu" type="button" aria-expanded="false" aria-controls="links">Menu</button>
+    <nav id="links" aria-label="Pages">
+      <a href="index.html" aria-current="page">The case</a>
+      <a href="learn.html">How CBAM works</a>
+      <a href="evidence.html">Evidence</a>
+      <a href="method.html">How I worked</a>
+      <a href="sources.html">Sources</a>
+      <a href="https://github.com/Vedantk910/cbam-exposure-case">Code</a>
+      <a class="pill" href="tool.html">Open the tool</a>
+    </nav>
+  </div>
 </header>
 
 <main>
 <p class="status" id="status" role="status">Loading the figures.</p>
 
-<section class="hero">
-  <h1>In 2026 CBAM charges Indian bolts on <span data-v="payable"></span> of their carbon, far above the 2.5% people quote</h1>
-  <p class="lede">The 2.5% comes from the EU's slow phase-out of free allowances, and it only describes emissions at the EU benchmark. India's default value for bolts is <span data-v="multiple"></span> times that benchmark. Everything above the benchmark is charged in full from the first day.</p>
-
-  <figure class="bolt">
-    <svg id="boltSvg" viewBox="0 0 1000 300" role="img" aria-labelledby="boltDesc"><title id="boltDesc">Scale drawing of one tonne of bolts in carbon terms</title></svg>
-    <div class="readout" id="boltRead"></div>
-    <div class="scrub">
-      <label for="yearRange">Import year <output id="yearOut">2026</output></label>
-      <input id="yearRange" type="range" min="0" max="8" step="1" value="0" aria-describedby="scrubNote">
-      <p id="scrubNote">Drag to 2034. Free allocation runs out and the two readings meet.</p>
-    </div>
-    <figcaption>One tonne of Indian bolts, drawn to scale in tonnes of CO₂e: CN 7318 15 on default values with the yearly mark-up. Sources: Commission Q&amp;A and its default value and benchmark files.</figcaption>
-  </figure>
-  <p class="byline">A strategy case by Vedant Konde, using official EU data to October 2026.</p>
+<section class="hero dark" id="hero">
+  <p class="by">A strategy case by Vedant Konde</p>
+  <h1><span class="lead">In 2026, CBAM charges Indian bolts on</span> <span class="big" id="heroNum" data-v="payable"></span> <span class="tail">of their carbon. People quote 2.5%.</span></h1>
+  <a class="down" href="#story">See why</a>
 </section>
 
-<section id="answer" class="sec">
-  <h2>The answer</h2>
-  <p class="ask">A 600-tonne-a-year Indian fastener maker asks what to do about CBAM before 2034.</p>
-  <p class="verdict-lg">Buy verified rod from your current mill and verify your own plant. Start now, and stay in the EU.</p>
-
-  <div class="two">
-    <div>
-      <h3>Five positions on one yardstick</h3>
-      <p class="note">Present value of the hit over 2027 to 2034, measured against a Taiwanese rival on its own default values. The exporter is fictional, sized from a worked fuel example.</p>
-      <div id="answerBars" class="hbars"></div>
+<section class="story dark" id="story" aria-label="One tonne of Indian bolts, drawn to scale, from 2026 to 2034">
+  <div class="stage">
+    <div class="caps wrap" id="caps">
+      <p class="cap on">This is one tonne of Indian bolts, drawn to scale in tonnes of CO₂e.</p>
+      <p class="cap">The steel head is free allocation, a fixed amount set by the EU benchmark.</p>
+      <p class="cap">The red shank sits above the benchmark, so it is charged in full from the first day.</p>
+      <p class="cap">The small block is the 2.5% reading. It only holds for a good sitting at the benchmark.</p>
+      <p class="cap">Free allocation runs out by 2034. The head goes, the mark-up climbs, and the two readings meet.</p>
     </div>
-    <div class="reasons">
-      <h3>Why</h3>
-      <p>The bill is already large. A tonne of bolts on default values carries <span data-v="cost27"></span> in 2027, about <span data-v="pct27"></span> of what EU buyers paid for Indian bolts in 2025. Across India's 2025 trade with the EU that is <span data-v="bill26"></span> a year, against <span data-v="naive26"></span> on the 2.5% reading.</p>
-      <p>Most of the saving sits in the steel rod. Verifying your own plant saves <span data-v="saveVerify"></span> over the period. Getting a verified figure from your rod mill as well saves <span data-v="saveMill"></span>. The mill's report accounts for <span data-v="rodShare"></span> of the prize, and the exporter has to go and ask for it.</p>
-      <p>Low-carbon rod comes second. The EU gives less free allocation to cleaner routes, which takes back <span data-v="routeTake"></span> of the gain in 2027. At a <span data-v="premium"></span> premium it pays in 2034 once carbon passes <span data-v="pStar"></span>/t, close to today's price, so the question comes back around 2030.</p>
+    <div class="boltbox wrap"><svg id="boltSvg" viewBox="0 0 1200 330" role="img" aria-label="Scale drawing of one tonne of bolts in carbon terms"></svg></div>
+    <div class="readout wrap" id="boltRead"></div>
+    <div class="years wrap" id="years" aria-hidden="true"></div>
+    <div class="scrub wrap ctl"><label for="yearRange">Import year <output id="yearOut">2026</output></label><input id="yearRange" type="range" min="0" max="8" step="1" value="0"></div>
+  </div>
+</section>
+
+<section class="chapter" id="answer">
+  <div class="wrap narrow">
+    <p class="ask reveal">A 600-tonne-a-year Indian fastener maker asks what to do about CBAM before 2034.</p>
+    <p class="statement" id="statement">Buy verified rod from your current mill and verify your own plant. Start now, and stay in the EU.</p>
+  </div>
+</section>
+
+<section class="chapter alt">
+  <div class="wrap">
+    <h2 class="reveal">Five positions, one yardstick.</h2>
+    <p class="intro reveal">Present value of the hit over 2027 to 2034, against a Taiwanese rival on its own default values. The exporter is fictional, sized from a worked fuel example.</p>
+    <div class="card rank reveal">
+      <div id="answerBars" class="hbars grow"></div>
+      <div>
+        <p class="bignum count" data-v="saveMill"></p>
+        <p class="body">saved by moving from default values to verified rod. Verifying your own plant alone saves <span data-v="saveVerify"></span>, so <span data-v="rodShare"></span> of the prize comes from your mill's report.</p>
+      </div>
     </div>
   </div>
+</section>
 
-  <h3>What the exporter should do first</h3>
-  <ol class="steps">
-    <li>Ask the rod mill for its CBAM verification report on 2026 production. Any verified figure below <span data-v="sFlip"></span> tCO₂e/t beats the marked-up default from 2028.</li>
-    <li>Line up a verifier now. The Commission expects first verification work in early 2027, the first visit has to be physical, and the European Fastener Distributor Association expects a bottleneck. Verified data pays above about <span data-v="flipT"></span> tonnes a year.</li>
-    <li>Write the saving into EU contracts. The importer pays CBAM and the exporter pays for verification, so the split has to be agreed.</li>
-    <li>Buy as a cluster. One small exporter has little pull on a mill, while a cluster's rod order can ask for the report and share a verifier.</li>
-  </ol>
+<section class="dark" style="background:#000;padding-top:var(--pad);padding-bottom:var(--pad)">
+  <div class="wrap"><h2 class="reveal" style="font-size:clamp(36px,5.6vw,72px);line-height:1.06">The case in five numbers.</h2></div>
+  <div class="rail" id="rail" tabindex="0" role="region" aria-label="Key numbers">
+    <article class="slide">
+      <div class="stat count" data-v="ratioX"></div>
+      <div class="viz" aria-hidden="true"><i style="background:var(--stay)"></i><i id="vizStub" style="background:var(--steel);width:3%"></i></div>
+      <div><p>The 2026 charge on Indian bolts, against the 2.5% reading.</p></div>
+      <a href="learn.html">Work through one tonne</a>
+    </article>
+    <article class="slide">
+      <div class="stat count" data-v="rodShare"></div>
+      <div><p>of the saving comes from one document: your rod mill's verification report.</p></div>
+      <a href="tool.html">See it in the dependency map</a>
+    </article>
+    <article class="slide">
+      <div class="stat count" data-v="flipTU"></div>
+      <div><p>a year of EU sales is enough for verified rod to pay for itself.</p></div>
+      <a href="tool.html">Try your own volume</a>
+    </article>
+    <article class="slide">
+      <div class="stat count" data-v="millFlip"></div>
+      <div><p>tCO₂e a tonne is where a mill loses to low-carbon rod. All ten plants in India's draft schedule sit below it.</p></div>
+      <a href="evidence.html#mills">See the ten plants</a>
+    </article>
+    <article class="slide">
+      <div class="stat">7 of 8</div>
+      <div><p>worked examples from Europe's fastener distributors match this model to within 5 cents.</p></div>
+      <a href="evidence.html#checks">See the comparison</a>
+    </article>
+  </div>
+  <div class="rail-ctl">
+    <button class="round" id="railPrev" type="button" aria-label="Previous number">‹</button>
+    <div class="dots" id="railDots" role="group" aria-label="Choose a number"></div>
+    <button class="round" id="railNext" type="button" aria-label="Next number">›</button>
+  </div>
+</section>
 
-  <h3>Does the arithmetic hold up?</h3>
-  <p class="wide">The European Fastener Distributor Association publishes the same formula with eight worked examples. Seven match this model to within 5 cents a tonne. The eighth, an Indian line, matches on the association's benchmark and raises a question about which benchmark that line should carry. The <a href="evidence.html#checks">full comparison</a> is on the evidence page.</p>
+<section class="chapter">
+  <div class="wrap split">
+    <div class="pin"><h2 class="reveal">What the exporter does first.</h2></div>
+    <ol class="todo">
+      <li class="reveal"><b>Ask the mill for its report.</b><span>Request the CBAM verification report on 2026 production. Any verified figure below <span data-v="sFlip"></span> tCO₂e/t beats the marked-up default from 2028.</span></li>
+      <li class="reveal"><b>Line up a verifier now.</b><span>The Commission expects first verification work in early 2027, the first visit has to be physical, and Europe's fastener distributors expect a bottleneck.</span></li>
+      <li class="reveal"><b>Write the saving into contracts.</b><span>The importer pays CBAM and the exporter pays for verification, so the split has to be agreed.</span></li>
+      <li class="reveal"><b>Buy as a cluster.</b><span>One small exporter has little pull on a mill. A cluster's rod order can ask for the report and share a verifier.</span></li>
+    </ol>
+  </div>
+</section>
 
-  <h3>What it means for an EU buyer</h3>
-  <p class="wide">It depends on the product. On bolts, CBAM cuts India's price gap to Taiwan from <span data-v="twBefore"></span> to <span data-v="twAfter"></span> a tonne, and the order of suppliers stays the same. On hot-rolled plate India moves from number <span data-v="plateBefore"></span> to number <span data-v="plateAfter"></span> of <span data-v="plateOf"></span> origins, cheapest first. You can <a href="tool.html#buyer">compare origins yourself</a> in the decision tool.</p>
+<section class="chapter alt">
+  <div class="wrap">
+    <h2 class="reveal">For an EU buyer, it depends on the product.</h2>
+    <p class="intro reveal">India's place among origins, cheapest first, before and after CBAM in 2026.</p>
+    <div class="pair">
+      <div class="card reveal">
+        <h3>Bolts and screws</h3>
+        <p class="shift"><span data-v="boltBefore"></span><small>to</small><span data-v="boltAfter"></span><small>of <span data-v="boltOf"></span></small></p>
+        <p class="body">The order of suppliers holds. India's price gap to Taiwan narrows from <span data-v="twBefore"></span> to <span data-v="twAfter"></span> a tonne.</p>
+      </div>
+      <div class="card reveal" style="--d:1">
+        <h3>Hot-rolled plate</h3>
+        <p class="shift"><span data-v="plateBefore"></span><small>to</small><span data-v="plateAfter"></span><small>of <span data-v="plateOf"></span></small></p>
+        <p class="body">India drops from among the cheapest origins to near the dearest, which can change who a buyer picks.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <h3>Where to read more</h3>
-  <ul class="tight wide">
-    <li><a href="learn.html">How CBAM works</a> takes one tonne through the charge step by step and explains the terms.</li>
-    <li><a href="tool.html">The decision tool</a> runs on your own numbers and shows how each input drives the answer.</li>
-    <li><a href="evidence.html">The evidence</a> covers the outside checks, real plant data, trade data and what people in the trade have said.</li>
-    <li><a href="method.html">How I worked</a> shows the dates, the mistakes and the attacks the case had to survive.</li>
-  </ul>
+<section class="chapter">
+  <div class="wrap tiles">
+    <a class="tile main reveal" href="tool.html"><h3>Run the decision on your own numbers.</h3><span>Open the tool</span></a>
+    <a class="tile reveal" href="learn.html"><h3>How CBAM works</h3><span>Follow one tonne</span></a>
+    <a class="tile reveal" style="--d:1" href="evidence.html"><h3>The evidence</h3><span>See the exhibits</span></a>
+    <a class="tile reveal" style="--d:2" href="method.html"><h3>How I worked</h3><span>Read the project log</span></a>
+  </div>
 </section>
 </main>
 
-<footer><p>Vedant Konde. Estimates for study, not legal or compliance advice. Rules as of October 2026.</p></footer>
+<footer><div class="wrap"><span>Vedant Konde. Estimates for study, not legal or compliance advice. Rules as of October 2026.</span><span><a href="sources.html">Sources</a></span></div></footer>
 <div class="tip" id="tip" role="status" hidden></div>
-<script src="engine.js?v=9"></script>
-<script src="app.js?v=9"></script>
+<script src="engine.js?v=10"></script>
+<script src="app.js?v=10"></script>
 </body>
 </html>
