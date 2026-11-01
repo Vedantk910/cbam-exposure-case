@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CBAM Exposure Case</title>
+<meta name="description" content="A strategy case on the EU carbon border charge: what an Indian steel exporter should do by 2034, with a live decision tool built on official EU data.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip" href="#answer">Skip to the answer</a>
+<header class="bar">
+  <a class="brand" href="#top">CBAM Exposure Case</a>
+  <nav aria-label="Sections">
+    <a href="#answer">Answer</a>
+    <a href="#tool">Try it</a>
+    <a href="#evidence">Evidence</a>
+    <a href="#method">How I built it</a>
+    <a href="#sources">Sources</a>
+    <a href="https://github.com/Vedantk910/cbam-exposure-case">Code</a>
+  </nav>
+</header>
+
+<main id="top">
+<section class="hero">
+  <h1>India's CBAM bill in 2026 is not 2.5%. It is <span data-v="payable"></span>.</h1>
+  <p class="lede">The common shorthand says only 2.5% of embedded emissions is payable in 2026. That holds only at the EU benchmark. India's default value for bolts sits <span data-v="multiple"></span> times above it, and everything above the benchmark is charged in full from the first day.</p>
+
+  <figure class="bolt">
+    <svg id="boltSvg" viewBox="0 0 1000 300" role="img" aria-labelledby="boltDesc"><title id="boltDesc">Scale drawing of one tonne of bolts in carbon terms</title></svg>
+    <div class="readout" id="boltRead"></div>
+    <div class="scrub">
+      <label for="yearRange">Import year <output id="yearOut">2026</output></label>
+      <input id="yearRange" type="range" min="0" max="8" step="1" value="0" aria-describedby="scrubNote">
+      <p id="scrubNote">Drag to 2034. Free allocation disappears and the two readings finally meet.</p>
+    </div>
+    <figcaption>One tonne of Indian bolts, drawn to scale in tonnes of CO₂e. CN 7318 15 on default values with the yearly mark-up. Sources: Commission CBAM Q&amp;A, default values and benchmark workbooks.</figcaption>
+  </figure>
+  <p class="byline">A strategy case by Vedant Konde, built on official EU data to October 2026.</p>
+</section>
+
+<section id="answer" class="sec">
+  <h2>The answer</h2>
+  <p class="ask">A 600-tonne-a-year Indian fastener maker asks what to do about CBAM before 2034.</p>
+  <p class="verdict-lg">Buy verified rod from your current mill and verify your own plant. Don't wait, don't buy green steel yet, and don't leave the EU.</p>
+
+  <div class="two">
+    <div>
+      <h3>Five positions on one yardstick</h3>
+      <p class="note">Present value of the hit over 2027 to 2034, against a Taiwanese rival on its own defaults. A fictional exporter, sized from a worked fuel example.</p>
+      <div id="answerBars" class="hbars"></div>
+    </div>
+    <div class="reasons">
+      <h3>Why</h3>
+      <p><b>The bill is real now.</b> On defaults a tonne of bolts carries <span data-v="cost27"></span> in 2027, <span data-v="pct27"></span> of what EU buyers pay. Across India's 2025 trade that is <span data-v="bill26"></span> a year, against <span data-v="naive26"></span> on the shorthand.</p>
+      <p><b>The money is in the rod, not the furnace.</b> Verifying your own plant saves <span data-v="saveVerify"></span>. Adding verified rod saves <span data-v="saveMill"></span>. <span data-v="rodShare"></span> of the prize comes from a document your mill holds.</p>
+      <p><b>Green steel loses for now.</b> Free allocation falls with the cleaner route, which takes back <span data-v="routeTake"></span> of the gain in 2027. At a <span data-v="premium"></span>/t premium it needs carbon at <span data-v="pStar"></span>/t in 2034, or a current mill above <span data-v="millFlip"></span> tCO₂e/t.</p>
+    </div>
+  </div>
+
+  <h3>What to do first</h3>
+  <ol class="steps">
+    <li>Ask your rod mill for its CBAM verification report on 2026 production. A verified figure below the marked-up default of <span data-v="sFlip"></span> tCO₂e/t beats the default from 2028.</li>
+    <li>Line up a verifier now. The Commission expects first verification work in early 2027, the first visit must be physical, and the trigger is only about <span data-v="flipT"></span> tonnes a year.</li>
+    <li>Write the saving into your EU contracts. The importer pays CBAM and you pay for verification, so the split has to be agreed, not assumed.</li>
+    <li>Buy as a cluster. One small exporter has little pull on a mill. A cluster's rod order has more, and it can share one verifier.</li>
+  </ol>
+</section>
+
+<section id="tool" class="sec tool">
+  <h2>Try it on your own numbers</h2>
+  <p class="note">Every input recalculates the same formulas as the Python model. A test fails the build if the two ever differ.</p>
+  <div class="toolgrid">
+    <form class="controls" id="controls" autocomplete="off">
+      <div class="ctl"><label for="c_product">Product</label><select id="c_product"></select></div>
+      <div class="ctl"><label for="c_tonnes">Tonnes sold to the EU a year <output id="o_tonnes"></output></label><input id="c_tonnes" type="range" min="0" max="100" step="1"></div>
+      <div class="ctl"><label for="c_mill">Your mill's verified rod, tCO₂e/t <output id="o_mill"></output></label><input id="c_mill" type="range" min="1.5" max="5.5" step="0.1"></div>
+      <div class="ctl"><label for="c_price">Carbon price, EUR/t <output id="o_price"></output></label><input id="c_price" type="range" min="40" max="160" step="1"></div>
+      <div class="ctl"><label for="c_rival">Rival who sets the EU price</label><select id="c_rival"></select></div>
+      <fieldset class="ctl"><legend>Free allocation phase-out</legend>
+        <label class="radio"><input type="radio" name="sched" value="law" checked> Law in force</label>
+        <label class="radio"><input type="radio" name="sched" value="proposal"> COM(2026) 616 proposal</label>
+      </fieldset>
+      <details class="more"><summary>More assumptions</summary>
+        <div class="ctl"><label for="c_own">Own plant, tCO₂/t of good <output id="o_own"></output></label><input id="c_own" type="range" min="0.1" max="1.5" step="0.01"></div>
+        <div class="ctl"><label for="c_mass">Steel used per tonne of good <output id="o_mass"></output></label><input id="c_mass" type="range" min="1" max="1.3" step="0.01"></div>
+        <div class="ctl"><label for="c_low">Low-carbon rod, tCO₂e/t <output id="o_low"></output></label><input id="c_low" type="range" min="0.5" max="2" step="0.1"></div>
+        <div class="ctl"><label for="c_premium">Low-carbon premium, EUR/t steel <output id="o_premium"></output></label><input id="c_premium" type="range" min="0" max="300" step="5"></div>
+        <div class="ctl"><label for="c_verify">Verification a year, EUR <output id="o_verify"></output></label><input id="c_verify" type="range" min="5000" max="60000" step="500"></div>
+        <div class="ctl"><label for="c_divert">Price given up outside the EU, EUR/t <output id="o_divert"></output></label><input id="c_divert" type="range" min="0" max="800" step="10"></div>
+        <div class="ctl"><label for="c_rate">Discount rate <output id="o_rate"></output></label><input id="c_rate" type="range" min="0.05" max="0.2" step="0.01"></div>
+      </details>
+      <button type="button" id="reset">Reset to the base case</button>
+    </form>
+    <div class="results">
+      <p class="tool-verdict" id="verdict" aria-live="polite"></p>
+      <div id="toolBars" class="hbars"></div>
+      <dl class="flips">
+        <div><dt>Verified rod pays above</dt><dd id="f_tonnes"></dd></div>
+        <div><dt>Low-carbon rod wins if your mill is above</dt><dd id="f_mill"></dd></div>
+        <div><dt>Or if 2034 carbon passes</dt><dd id="f_price"></dd></div>
+      </dl>
+      <h3>Certificates per tonne of good</h3>
+      <div class="legend" id="lineLegend"></div>
+      <div class="chart" id="lineChart"></div>
+    </div>
+  </div>
+</section>
+
+<section id="evidence" class="sec">
+  <h2>The evidence</h2>
+
+  <article class="ex">
+    <h3>Commodity grades cannot carry the default. Downstream goods can.</h3>
+    <p class="note">Default-route CBAM cost as a share of the 2025 EU import price, India's largest lines at a flat <span data-v="priceBase"></span>/t. Darker means heavier.</p>
+    <div class="scrollx" tabindex="0" role="region" aria-label="Cost as a share of value by product and year"><table class="heat" id="heat"></table></div>
+    <p class="so">So the exposed part of Indian steel is the low-value end. Flat goods are also inside the EU's 50% out-of-quota regime from July 2026, so CBAM is only half their problem.</p>
+  </article>
+
+  <article class="ex">
+    <h3>The rival that matters pays far less, and only the gap sticks</h3>
+    <p class="note">Default-route cost for a tonne of bolts in 2027, EUR. A buyer pays what the next supplier's landed cost allows, so the exporter absorbs the difference.</p>
+    <div id="originBars" class="hbars"></div>
+    <p class="so">Taiwan is the largest supplier to the EU after China, and its default is less than half of India's. Verified rod puts India at <span data-v="millCost"></span>/t, level with Taiwan at <span data-v="twCost"></span>/t.</p>
+  </article>
+
+  <article class="ex">
+    <h3>Until 2030 the shorthand misses most of the sector's bill</h3>
+    <p class="note">India's CBAM-scope exports to the EU at 2025 volumes on default values, EUR million a year.</p>
+    <div class="legend" id="sectorLegend"></div>
+    <div class="chart" id="sectorChart"></div>
+    <p class="so">The 2026 bill is <span data-v="sectorPct"></span> of the value of that trade. Two outside estimates come in lower: FEPS-NIPFP at 16% of 2022 unit value, and Sentra.world at 10 to 20% of product cost. Neither was an input, and the FEPS study predates the published default values, so I read them as a sense check on scale, not a match.</p>
+  </article>
+
+  <article class="ex">
+    <h3>Leaving is not a clean exit</h3>
+    <p class="note">India's bolt and screw exports by destination in 2025, UN Comtrade.</p>
+    <div class="scrollx" tabindex="0" role="region" aria-label="Exports by destination"><table class="plain" id="markets"></table></div>
+    <p class="so">One firm could sell elsewhere at about <span data-v="divertLoss"></span>/t less. The whole sector could not: the EU takes <span data-v="euShare"></span> of tonnes, the US carries a Section 232 duty reported at 25 to 50%, and the UK starts its own CBAM in January 2027 with no carve-out for India.</p>
+  </article>
+
+  <article class="ex">
+    <h3>Trade has not moved yet, and I am not claiming it has</h3>
+    <p class="note">EU imports, 14 origins by HS6 by month. Each dot compares high-burden and low-burden flows against the first half of 2023. Bars show a 95% interval.</p>
+    <div class="chart" id="eventChart"></div>
+    <p class="so">The average effect since January 2026 is not distinguishable from zero (<span data-v="beta"></span>, standard error <span data-v="betaSe"></span>). July and August dip, but that is two months and it coincides with the new steel quotas. A stricter version adding origin-by-month effects gives <span data-v="betaOm"></span> with a t-statistic of <span data-v="betaOmT"></span>, but its 2024 points already sit below zero, so I do not lean on it. Buyers have also not paid yet: certificates go on sale in February 2027.</p>
+  </article>
+</section>
+
+<section id="method" class="sec">
+  <h2>How I built it</h2>
+  <p class="wide">This is the third case in a set: the first asks whether to acquire, the second whether to enter, and this one what to do when a regulator redraws your cost curve. I gave it the same seven gates. Each gate has an artefact in the repository, so anyone can check the work.</p>
+
+  <ol class="gates">
+    <li><b>Scope.</b> One decision for one exporter, as five positions that cover every move.</li>
+    <li><b>Build.</b> Official workbooks and Eurostat into tagged facts, then a model of four small modules.</li>
+    <li><b>Test.</b> <span data-v="tests"></span> tests. The goldens were worked by hand from the formula, not read back from the code.</li>
+    <li><b>Verify.</b> One command regenerates every number. The report and this page read only that output.</li>
+    <li><b>Stress.</b> <span data-v="stressN"></span> cases and four ablations, below.</li>
+    <li><b>Document.</b> Every fact tagged primary, official data, secondary or assumption.</li>
+    <li><b>Hostile pass.</b> The attacks a partner would make, answered with numbers, below.</li>
+  </ol>
+
+  <h3>What changed as the evidence came in</h3>
+  <div class="changes">
+    <p><b>The plan's main finding was wrong.</b> My first notes said a verified figure was worth about €1,400 in 2026, so verification could wait. They had taken the 2.5% at face value. The Commission's Q&amp;A shows free allocation is subtracted as a benchmark, not applied as a percentage. That moved the 2026 figure by a factor of <span data-v="ratio"></span> and reversed the advice.</p>
+    <p><b>My first yardstick was broken.</b> I began with the combined cost to exporter and importer. That made leaving the EU look free. I rebuilt it around what the exporter absorbs after a rival's own CBAM bill, and the flip points stayed exactly the same.</p>
+    <p><b>My first regression failed its placebo.</b> A fake start date in 2025 gave a t-statistic above 3, which meant the design was picking up something else. I had set each product's burden from 2025 prices, and those move with 2025 tonnes. Moving the base to 2023 took the placebo to <span data-v="placeboT"></span> and removed a 2025 surge that had looked like front-running.</p>
+    <p><b>Some sources would not open.</b> EUR-Lex refuses automated access, so the equations come from the Commission's Q&amp;A and benchmark workbooks, and the steel quota's product list is unread. Whether quotas touch fasteners stays marked as inferred.</p>
+  </div>
+
+  <h3>The work, counted</h3>
+  <dl class="counts">
+    <div><dd data-v="wSources"></dd><dt>sources logged and tagged</dt></div>
+    <div><dd data-v="wRows"></dd><dt>Eurostat monthly rows</dt></div>
+    <div><dd data-v="wDefaults"></dd><dt>official default rows across 15 tables</dt></div>
+    <div><dd data-v="wBench"></dd><dt>official benchmark rows</dt></div>
+    <div><dd data-v="tests"></dd><dt>automated tests</dt></div>
+    <div><dd data-v="wChecks"></dd><dt>Python-to-JavaScript checks</dt></div>
+  </dl>
+
+  <h3>The hostile pass</h3>
+  <div class="scrollx" tabindex="0" role="region" aria-label="Attacks and answers"><table class="plain attack" id="attacks"></table></div>
+
+  <details class="more"><summary>All <span data-v="stressN"></span> stress cases</summary>
+    <div class="scrollx" tabindex="0" role="region" aria-label="Stress cases"><table class="plain" id="stress"></table></div>
+  </details>
+  <details class="more"><summary>Every assumption, and why</summary>
+    <div class="scrollx" tabindex="0" role="region" aria-label="Assumptions"><table class="plain" id="assumptions"></table></div>
+  </details>
+
+  <h3>Skills used</h3>
+  <dl class="skills">
+    <div><dt>Case work</dt><dd>Hypothesis-led structuring, answer-first writing, mutually exclusive options, stakeholder incentives</dd></div>
+    <div><dt>Regulation</dt><dd>Reading CBAM law and Commission guidance, tracing a rule from text to arithmetic</dd></div>
+    <div><dt>Finance</dt><dd>Present value, closed-form break-evens, scenario and sensitivity analysis</dd></div>
+    <div><dt>Econometrics</dt><dd>Fixed-effects panels, event studies, clustered errors, placebo tests</dd></div>
+    <div><dt>Data</dt><dd>Python, numpy, Eurostat SDMX, UN Comtrade, parsing official workbooks</dd></div>
+    <div><dt>Product</dt><dd>HTML, CSS, JavaScript, hand-built SVG charts, automated tests, CI</dd></div>
+  </dl>
+</section>
+
+<section id="outcome" class="sec">
+  <h2>The outcome</h2>
+  <div class="two">
+    <div>
+      <h3>What it delivers</h3>
+      <ul class="tight">
+        <li>A corrected reading of the free allocation rule, sourced to the Commission.</li>
+        <li>A ranked answer with three triggers an exporter can act on.</li>
+        <li>A public tool that runs on any browser, with no login.</li>
+        <li>A repository where one command reproduces every number here.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>What it does not show</h3>
+      <ul class="tight">
+        <li>No exporter, mill or verifier was interviewed. The exporter is fictional.</li>
+        <li>No Indian mill's verified figure is public, so 2.6 tCO₂e/t is an estimate and the biggest risk here.</li>
+        <li>Verifier fees are unpublished. The cost is a press figure at its upper end.</li>
+        <li>Unit values are customs averages, not contract prices.</li>
+      </ul>
+    </div>
+  </div>
+  <h3>What I would do next</h3>
+  <p class="wide">Ask five mills whether they hold a verification report and at what intensity, then ask five exporters what their buyers have requested so far. Those two conversations test the two inputs that carry the most weight.</p>
+</section>
+
+<section id="sources" class="sec">
+  <h2>Sources</h2>
+  <p class="note">Primary means read from an EU document. Official data came from the publisher's file. Secondary was reported by a third party and not checked against the legal text.</p>
+  <div class="scrollx" tabindex="0" role="region" aria-label="Sources"><table class="plain src" id="sourceList"></table></div>
+</section>
+</main>
+
+<footer>
+  <p>Vedant Konde. Estimates for study, not legal or compliance advice. Rules as of October 2026.</p>
+</footer>
+<div class="tip" id="tip" role="status" hidden></div>
+<script src="engine.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
