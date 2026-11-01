@@ -1,0 +1,8 @@
+.DS_Store
+.venv/
+__pycache__/
+.pytest_cache/
+graphify-out/
+docs/*
+!docs/00-PROJECT-BLUEPRINT.md
+site/_preview.html
