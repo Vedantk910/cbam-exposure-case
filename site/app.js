@@ -1,5 +1,5 @@
 (async function () {
-  const D = await (await fetch("data.json?v=5")).json();
+  const D = await (await fetch("data.json?v=6")).json();
   const N = D.numbers;
   const rules = { years: D.years, markup: D.markup, cscf: D.cscf };
   const $ = (id) => document.getElementById(id);

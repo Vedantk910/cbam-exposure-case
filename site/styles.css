@@ -148,6 +148,8 @@ footer { max-width: 1160px; margin: 24px auto 0; padding: 16px clamp(16px, 4vw, 
   html { scroll-padding-top: 8px; }
   .hb { grid-template-columns: minmax(96px, 9.5em) minmax(0, 1fr) 4.2em; font-size: 14px; }
   .dim-text { display: none; }
+  .ctl select, #reset { min-height: 44px; }
+  .ctl .radio { min-height: 32px; align-items: center; }
 }
 @media print {
   .bar, .controls, .scrub { display: none; }
