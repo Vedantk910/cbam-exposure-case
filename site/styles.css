@@ -401,4 +401,6 @@ table { border-collapse: collapse; font-size: 15px; line-height: 1.35; }
   .nav, .controls, .rail-ctl, .down, .segment { display: none; }
   .story { height: auto; }
   .stage { position: static; height: auto; }
+  .js .reveal, .js .statement .w { opacity: 1 !important; transform: none !important; }
+  .chapter { padding: 28px 0; break-inside: avoid; }
 }

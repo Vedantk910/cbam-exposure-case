@@ -14,7 +14,7 @@
 
   let D;
   try {
-    const r = await fetch("data.json?v=12");
+    const r = await fetch("data.json?v=13");
     if (!r.ok) throw new Error(r.status);
     D = await r.json();
   } catch {
