@@ -117,14 +117,14 @@ input[type="range"] { width: 100%; accent-color: var(--mill); margin: 6px 0 0; }
 .map svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
 .map .edge { fill: none; stroke: var(--rule); stroke-width: 1.6; }
 .map .edge.on { stroke: var(--stay); stroke-width: 2.2; }
-.map .col { display: flex; flex-direction: column; justify-content: center; gap: 8px; position: relative; z-index: 1; }
-.map .head { font-size: 13.5px; font-weight: 600; color: var(--ink-3); margin-bottom: 2px; }
+.map .col { display: flex; flex-direction: column; justify-content: center; gap: 8px; position: relative; z-index: 1; padding-top: 26px; }
+.map .head { position: absolute; top: 0; left: 0; font-size: 13.5px; font-weight: 600; color: var(--ink-3); }
 .node { display: block; width: 100%; text-align: left; font-family: var(--ui); color: var(--ink); background: var(--bg); border: 1px dashed var(--ink-3); border-radius: 3px; padding: 6px 8px; min-height: 44px; cursor: pointer; }
 .node.input { background: var(--panel); border-style: solid; }
 .node.result { background: var(--ink); color: var(--bg); border-style: solid; }
 .node span { display: block; font-size: 13px; line-height: 1.2; }
 .node b { display: block; font: 600 19px/1.15 var(--display); font-variant-numeric: tabular-nums; }
-.node.off { opacity: .42; }
+.node.off { opacity: .62; }
 .node.sel { outline: 2px solid var(--stay); outline-offset: 1px; }
 .info { margin-top: 14px; border-top: 1px solid var(--rule); padding-top: 12px; font-family: var(--ui); font-size: 16px; line-height: 1.45; max-width: 76ch; min-height: 120px; }
 .info h3 { margin: 0 0 4px; }
@@ -209,6 +209,8 @@ footer { max-width: 1160px; margin: 24px auto 0; padding: 16px clamp(16px, 4vw, 
   input[type="range"] { height: 30px; }
   .bar nav a { padding: 11px 0 9px; }
   .map { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .map .col { padding-top: 0; }
+  .map .head { position: static; }
   .map svg { display: none; }
   .sw { grid-template-columns: minmax(0, 1fr); gap: 4px; }
   .timeline li { grid-template-columns: 5.6em minmax(0, 1fr); }
