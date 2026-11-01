@@ -381,6 +381,7 @@ table { border-collapse: collapse; font-size: 15px; line-height: 1.35; }
   .story { height: 420vh; }
   .caps { min-height: 5.4em; font-size: clamp(21px, 5.6vw, 28px); }
   .dim-text { display: none; }
+  #boltSvg { height: min(38vh, 280px); }
   .round { display: none; }
   .segment button { padding: 11px 15px; }
 }

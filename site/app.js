@@ -14,7 +14,7 @@
 
   let D;
   try {
-    const r = await fetch("data.json?v=14");
+    const r = await fetch("data.json?v=15");
     if (!r.ok) throw new Error(r.status);
     D = await r.json();
   } catch {
@@ -175,6 +175,8 @@
     shade("emberG", [[0, "#8f2a12"], [0.2, "#e8562e"], [0.36, "#ff9a6b"], [0.6, "#d4441f"], [1, "#6d1d0a"]]);
     shade("stubG", [[0, "#636366"], [0.35, "#c7c7cc"], [1, "#48484a"]]);
     svg.append(defs);
+    // Phones are tall and narrow, so the drawing fills the height there and drops its labels.
+    if (innerWidth <= 860) svg.setAttribute("preserveAspectRatio", "none");
     const layer = el("g");
     svg.append(layer);
     let stepNow = -1;
