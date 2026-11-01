@@ -19,7 +19,7 @@
 
   let D;
   try {
-    const r = await fetch("data.json?v=8");
+    const r = await fetch("data.json?v=9");
     if (!r.ok) throw new Error(r.status);
     D = await r.json();
   } catch {
@@ -165,7 +165,10 @@
       D.buyer[+product.value].rows.slice().sort((a, b) => a.name.localeCompare(b.name)).forEach((r) => origin.add(new Option(r.name, r.origin)));
       origin.value = [...origin.options].some((o) => o.value === keep) ? keep : origin.options[0].value;
     };
-    price.value = Math.round(D.price_base);
+    // Keep the exact price until someone moves the slider, so this agrees with the case page.
+    let exactPrice = D.price_base;
+    price.value = exactPrice;
+    price.addEventListener("input", () => (exactPrice = +price.value));
     function render() {
       const r = D.buyer[+product.value].rows.find((x) => x.origin === origin.value);
       const i = +year.value;
@@ -175,9 +178,9 @@
       const f = D.factor.law[i];
       const sefa = f * r.bm[i];
       const net = Math.max(0, see - sefa);
-      const p = +price.value;
+      const p = exactPrice;
       $("l_yearOut").textContent = y;
-      $("l_priceOut").textContent = `€${p}`;
+      $("l_priceOut").textContent = `€${Number.isInteger(p) ? p : p.toFixed(2)}`;
       const rows = [
         ["Default value for this product and origin", `${r.d.toFixed(3)} t`, "Commission default value file"],
         [`Add the ${y} mark-up of ${pct(mu)}`, `${see.toFixed(3)} t`, "Commission Q&A 4.25"],
@@ -185,7 +188,7 @@
         [`CBAM factor for ${y}`, pct(f, 1), "Directive 2003/87/EC, Art. 10a(1a)"],
         ["Free allocation adjustment, benchmark times factor", `${sefa.toFixed(3)} t`, "Reg. 2025/2620 Annex"],
         ["Certificates needed, emissions less adjustment", `${net.toFixed(3)} t`, "Commission Q&A 3.7"],
-        ["Certificate price", `€${p}`, "Your setting"],
+        ["Certificate price", `€${Number.isInteger(p) ? p : p.toFixed(2)}`, "Latest quarterly price unless you move the slider"],
         ["CBAM cost per tonne of goods", eur(net * p), `${pct((net * p) / r.uv, 1)} of this origin's 2025 import price`],
       ];
       $("l_steps").innerHTML = `<thead><tr><th>Step</th><th class="n">Result</th><th>Where it comes from</th></tr></thead><tbody>${rows.map((x) => `<tr><td>${x[0]}</td><td class="n">${x[1]}</td><td>${x[2]}</td></tr>`).join("")}</tbody>`;
@@ -511,13 +514,15 @@
     // The EU buyer's view.
     const bp = $("b_product"), by = $("b_year"), bc = $("b_price");
     D.buyer.forEach((b, i) => bp.add(new Option(b.name, i)));
-    bc.value = Math.round(D.price_base);
+    let buyerPrice = D.price_base;
+    bc.value = buyerPrice;
+    bc.addEventListener("input", () => (buyerPrice = +bc.value));
     function renderBuyer() {
       const b = D.buyer[+bp.value];
       const i = +by.value;
-      const p = +bc.value;
+      const p = buyerPrice;
       $("b_yearOut").textContent = D.years[i];
-      $("b_priceOut").textContent = `€${p}`;
+      $("b_priceOut").textContent = `€${Number.isInteger(p) ? p : p.toFixed(2)}`;
       const rows = Engine.landed(b.rows, i, p, D.factor.law, rules);
       const peak = Math.max(...rows.map((r) => r.landed));
       $("b_bars").innerHTML = rows.map((r) => `<div class="st ${r.origin === "IN" ? "me" : ""}" title="${r.name}: price ${eur(r.uv)}, CBAM ${eur(r.cbam)}">
@@ -560,11 +565,16 @@
       const inkDark = hex("#13293d");
       $("heat").innerHTML = `<thead><tr><th scope="col">Product</th><th scope="col">2025 trade</th>${shownYears.map((y) => `<th scope="col">${y}</th>`).join("")}</tr></thead><tbody>${
         lines.map((l) => `<tr title="${l.label.replace(/"/g, "&quot;")}"><td>${l.name}</td><td>${eur(l.value)}</td>${shownYears.map((y) => {
-          const t = (l.pct[y] / peak) * 0.9 + 0.04;
-          const rgb = a.map((v, i) => Math.round(v * t + b[i] * (1 - t)));
-          const L = lum(rgb);
-          const onWhite = 1.05 / (L + 0.05);
-          const onInk = (L + 0.05) / (lum(inkDark) + 0.05);
+          // Lighten any mid-tone until its better text colour clears 4.5:1.
+          let t = (l.pct[y] / peak) * 0.9 + 0.04;
+          let rgb, onWhite, onInk;
+          do {
+            rgb = a.map((v, i) => Math.round(v * t + b[i] * (1 - t)));
+            const L = lum(rgb);
+            onWhite = 1.05 / (L + 0.05);
+            onInk = (L + 0.05) / (lum(inkDark) + 0.05);
+            t -= 0.02;
+          } while (Math.max(onWhite, onInk) < 4.5 && t > 0);
           return `<td class="c" style="background:rgb(${rgb});color:${onWhite > onInk ? "#fff" : "#13293d"}">${pct(l.pct[y])}</td>`;
         }).join("")}</tr>`).join("")}</tbody>`;
     }

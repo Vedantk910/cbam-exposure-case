@@ -205,6 +205,7 @@ footer { max-width: 1160px; margin: 24px auto 0; padding: 16px clamp(16px, 4vw, 
   .hb { grid-template-columns: minmax(96px, 9.5em) minmax(0, 1fr) 4.2em; font-size: 14px; }
   .dim-text { display: none; }
   .ctl select, #reset, #theme { min-height: 44px; }
+  .brand { display: inline-block; padding: 12px 0; }
   .ctl .radio { min-height: 32px; align-items: center; }
   input[type="range"] { height: 30px; }
   .bar nav a { padding: 11px 0 9px; }
